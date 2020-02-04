@@ -1,0 +1,16 @@
+.wrap{
+  position: relative;
+  max-width: 1640px;
+  margin:80px auto 0;
+  background:#fff;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
+}
+.container{
+  width:100%;
+  min-height:80vh;
+  padding-left:276px;
+  background:#FAFAFA;
+}
+.content-wrap{
+  padding: 90px 52px;
+}

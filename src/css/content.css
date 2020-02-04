@@ -1,0 +1,13 @@
+.sec:after{content:""; display: block; clear:both;}
+
+.temp{background:#fff; border:1px solid #eee;}
+.temp1{width:calc(50% - 16px); float:left; height:540px; margin:8px; }
+.temp2{width:calc(50% - 16px); float:right; height:262px; margin:8px; }
+.temp3{width:calc(100% - 16px); height:80px;margin:8px; }
+
+.work-slide ul:after{content:""; display: block; clear:both;}
+.work-slide .work-slide-item{float:left; width:calc(50% - 16px); height:260px; margin:8px; background:#fff; border:1px solid #eee;}
+
+
+.study-slide ul:after{content:""; display: block; clear:both;}
+.study-slide .work-slide-item{float:left; width:calc(100% - 16px); height:260px; margin:8px; background:#fff; border:1px solid #eee;}
