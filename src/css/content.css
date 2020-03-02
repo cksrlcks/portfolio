@@ -1,13 +1,87 @@
-.sec:after{content:""; display: block; clear:both;}
 
-.temp{background:#fff; border:1px solid #eee;}
-.temp1{width:calc(50% - 16px); float:left; height:540px; margin:8px; }
-.temp2{width:calc(50% - 16px); float:right; height:262px; margin:8px; }
-.temp3{width:calc(100% - 16px); height:80px;margin:8px; }
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap');
+.hero{padding:120px 0 200px;}
+.hero .hero_title{font-size:100px; line-height: 1em; font-weight: 700; letter-spacing: -0.01em; margin-bottom:0.3em; transition: all 0.2s;}
+.hero .hero_sub{font-size:20px; color:#999}
+.recent_list.post{max-width: 640px; margin:0 auto;}
+.recent_list .sec_title{
+    display: inline-block;
+    font-size:20px;
+    margin-bottom:50px;
+    padding-left:10px;
+    position: relative;
+}
+.recent_list .sec_title:after{
+    content:"";
+    display: block;
+    width:200px;
+    height:1px;
+    background:rgba(255,255,255,0.3);
+    position: absolute;
+    top:0.7em;
+    left:120%;
+}
 
-.work-slide ul:after{content:""; display: block; clear:both;}
-.work-slide .work-slide-item{float:left; width:calc(50% - 16px); height:260px; margin:8px; background:#fff; border:1px solid #eee;}
+.recent_post_list:after{content:""; display:block; clear: both;}
+.recent_post_list > li{float:left; width:50%; padding:10px 10px; }
+.recent_post_list > li a{display:block; height:340px; border-radius: 2px; overflow:hidden;background-repeat: no-repeat; background-position: center center; background-size:cover; position: relative; transition: all 0.5s ease-in;}
+.recent_post_list > li .meta{position: absolute; width:100%; height:100%; background:rgba(0,0,0,0); transition: all 0.2s;}
+.recent_post_list > li .meta .meta_container{position: absolute; width:100%; left:20px; bottom:20px; opacity: 0;transition: all 0.2s;}
+.recent_post_list > li .meta .meta_container .title{font-size:16px; line-height:1.2em; margin-bottom:0.4em; font-weight:500;}
+.recent_post_list > li .meta .meta_container .date{font-size:14px;}
+.recent_post_list > li:hover .meta{background:rgba(0,0,0,0.2)}
+.recent_post_list > li:hover .meta .meta_container{opacity: 1;}
 
+.recent_list .post_total{margin-bottom:2em; padding-left:0.2em; }
+.recent_list .post_total .post_icon{margin-right:0.5em;}
+.post_list > li{font-size:16px; margin-bottom:2em; background:#202125; border-radius: 4px;}
+.post_list > li .img_frame{width:100%; border-radius: 2px; overflow:hidden;}
+.post_list > li .img_frame img{width:100%; height:auto;}
+.post_list > li a{display: block;}
+.post_list > li .post_detail{padding:1.5em 2em;}
+.recent_list.study .post_list > li .post_detail{padding:2em;}
+.post_list .title{font-size:2em; font-weight:500; letter-spacing: 0.01em; margin-bottom:0.3em; line-height: 1.5em;}
+.post_list .summary{font-size:1.25em; color:#a9a9a9; margin-bottom:2em; line-height: 1.5em;}
+.post_list .meta_list:after{content:"";display: block;clear:both;}
+.post_list .meta_list li{float:left; margin-right:1em; color:#01B075}
+.post_list .meta_list li .post_icon{margin-right:0.5em; }
+.post_list .meta_list li .post_icon.fa-pen{font-size:0.9em;}
+.post_list .meta_list li .date{font-size:16px; margin-bottom:0.5em; opacity:0.6;}
 
-.study-slide ul:after{content:""; display: block; clear:both;}
-.study-slide .work-slide-item{float:left; width:calc(100% - 16px); height:260px; margin:8px; background:#fff; border:1px solid #eee;}
+.empty_center{text-align:center;}
+
+.post_loader{text-align: center;}
+
+.load_more_btn{
+    display: block;
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius: 4px;
+    color:#fff;
+    padding:1.3em 0;
+    width:240px;
+    margin:0 auto;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.load_more_btn:hover{
+    background:#01B075;
+    border-color:#01B075;
+}
+
+@media only screen and (max-width:1024px){
+    .hero .hero_title{font-size:60px}
+    .recent_post_list > li{width:100%;}
+    .recent_post_list > li a{height:0; padding-bottom:60%;}
+
+}
+@media only screen and (max-width:768px){
+    .hero{padding:120px 8px 160px;}
+    .hero .hero_title{font-size:34px}
+    .hero .hero_sub{font-size:14px;}
+    .recent_post_list > li{padding:8px 0;}
+    .recent_list .sec_title{padding-left:4px; font-size:16px; margin-bottom:32px;}
+    .recent_list .sec_title:after{width:160px;}
+    .post_list > li{font-size:0.8em;}
+    .post_list .title{line-height: 1.3em;}
+    .post_list .summary{font-size:1.2em;}
+}

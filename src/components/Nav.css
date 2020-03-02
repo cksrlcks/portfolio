@@ -1,57 +1,97 @@
 .gnb{
     position: absolute;
-    width:276px;
-    height: 100%;
-    padding:240px 18px 0;
-    background: #fff;
+    top:0;
+    width:100%;
+    transition: all 0.2s ease-in-out;
+    padding:50px 20px;
+    background:#16171B;
+    z-index: 99;
 }
-.gnb .inner{padding:0 18px; position: relative;}
-.gnbItem{
-    position: relative;
-    z-index: 8;
+.gnb .active_bar{
     display: block;
-    padding:14px 30px;
-    font-size:20px;
-    font-weight:700;
-    color:#333;
-    text-decoration: none;
-    margin-bottom:12px;
-    transition: color 0.5s ease;
-}
-.gnbItem .icon{
     position: absolute;
+    right:0;
+    bottom:-24px;
+    width:40px;
+    height:2px;
+    background:#01B075;
+    transition: all 0.2s;
+    opacity: 0;
+}
+.gnb.on{
+    position:fixed;
+    top:0;
+    padding:30px 0;
+    box-shadow: 0px 5px 40px -17px rgba(0,0,0,0.15);
+}
+.gnb .inner{
+    max-width:1200px; 
+    margin:0 auto;    
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    
+}
+.gnb.on .inner{width:1220px;}
+.gnb .logo{
+    display:inline-block;
+}
+.gnb .logo_svg{
+    height:1.8em; 
+    width:auto;
+}
+.gnb .nav_rt .gnbItem{
+    display: block;
+    
+}
+.gnb .nav_rt{
+    position:absolute;
     right:0;
     top:50%;
     transform: translateY(-50%);
-    transition: 0.2s;
-    transition-delay: 0.3s;
-    opacity:0;
+    transition: all 0.2s;
 }
-.gnbItem.active .icon{
-    opacity:1;
+.gnb .nav_rt .gnbItem{
+    display:block; 
+    float:left; 
+    margin-left:1.5em;
+    padding:0.75em;
+    color:#fff;
+    font-size:1em;
+    line-height:1em;
+    font-weight: 400;
+    transition: color 0.2s ease-in-out 0s;
+}
+.gnb .nav_rt .gnbItem:hover{
+    color:#666;
 }
 
-.gnbItem.active{
-    color:#fff;
+@media only screen and (max-width:1024px){
+
+    .gnb{
+        padding:20px 24px;
+    }
+    .gnb.on{
+        padding:20px 24px;
+    }
+    .gnb .active_bar{
+        bottom:0;
+    }
+    .gnb .nav_rt{
+        right:-12px;
+    }
+    .gnb.on .inner{
+        width:auto;
+    }
 }
-.gnbItem span{
-    position:relative; 
-    z-index: 2;
-}
-.activeBg{
-    display:block;
-    position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:55px;
-    border-radius: 32px;
-    z-index: 1;
-    transition: all 0.4s ease;
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#4294fe+0,2567e7+100 */
-    background: #4294fe; /* Old browsers */
-    background: -moz-linear-gradient(left,  #4294fe 0%, #2567e7 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  #4294fe 0%,#2567e7 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  #4294fe 0%,#2567e7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4294fe', endColorstr='#2567e7',GradientType=1 ); /* IE6-9 */
+@media only screen and (max-width:960px){
+
+    .gnb .inner{
+        padding:0;
+    }
+    .gnb .logo_svg{
+        height:1.2em;
+    }
+    .gnb .nav_rt .gnbItem{
+        font-size:0.8em;
+    }
 }

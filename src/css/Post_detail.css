@@ -1,0 +1,79 @@
+.post_container{max-width:960px; margin:0 auto; font-size:16px;}
+.post_container .post_body{ background:#202125; border-radius: 4px; padding:6em 4em; min-height: 70vh;}
+.post_container .title{font-size:3em; font-weight:700; margin-bottom:1em;}
+.post_container .post_content{font-size:16px; border-top:1px solid rgba(255,255,255,0.03); padding:4em 0.5em;}
+.post_container .post_content p{font-size:1.2em; margin-bottom:1.2em; line-height:1.7em;}
+
+.videoWrapper{margin-bottom:2em;}
+.videoWrapper iframe{margin:0 auto; width:100%;}
+.post_content img{
+    width:100%;
+    height:auto;
+}
+.btn_go{
+    display: inline-block;
+    height: 56px;
+    line-height: 56px;
+    text-align:center;
+    padding:0 32px;
+    text-align:center;
+    font-size: 18px;
+    background:#01B075;
+    border-radius: 4px;
+    -webkit-box-shadow: 10px 10px 14px 1px rgba(00,00,00  ,0.2);
+    box-shadow: 10px 10px 14px 1px rgba(00,00,00,0.2);
+    margin-bottom: 2em;
+    transition:background 0.2s;
+}
+.btn_go:hover{
+    background:#1BDE9C;
+}
+.back_btn{
+    color:#fff;
+    padding:1em 0.2em;
+    border:none;
+    font-size:1.2em;
+    margin-bottom:2em;
+    cursor: pointer;
+    position: relative;
+}
+.back_btn:after{
+    content:"";
+    display: block;
+    width:100%;
+    height:1px;
+    background:#fff;
+    position: absolute;
+    bottom:0;
+    left:0;
+    opacity: 0;
+    transition: opacity 0.2s;;
+}
+.back_btn:hover:after{
+    opacity:1
+}
+.back_btn .post_icon_back{
+    margin-right:1em;
+}
+.post_meta{text-align: right; margin-bottom:1em;}
+.post_meta ul{display: inline-block;}
+.post_meta ul:after{content:""; display:block; clear:both;}
+.post_meta ul li{float:left; margin-left:2em; color:#a9a9a9;}
+.post_meta ul li .post_icon{margin-right:0.5em;}
+.post_meta ul li .post_icon.fa-pen{font-size:0.9em;}
+
+
+@media only screen and (max-width:768px){
+    .back_btn{
+        margin-bottom:1em;
+        font-size:1em;
+    }
+    .post_container .post_body{
+      padding:3em 2em;
+      font-size:0.8em
+    }
+
+    .post_container .title{
+        font-size:2em;
+    }
+  }

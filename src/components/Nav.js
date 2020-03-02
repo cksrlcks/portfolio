@@ -1,63 +1,88 @@
-import React , {useRef, useEffect} from 'react';
+import React, {useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Nav.css'
-import icon_sample from'../img/icon_sample.svg'
+import logo from '../img/logo.svg'
 const Nav = () => {
+    const scrollHeader = () => {
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.gnb');
+            const scrolled = window.pageYOffset;
+            
+            if(scrolled){
+                header.classList.add('on');
+            }else{
+                header.classList.remove('on');
+            }
 
-    let gnbBg = useRef(null);
+        })
+        
+    }    
+    scrollHeader();
+
+    
 
     useEffect(() => {
-        
-        let item = document.querySelectorAll('.gnbItem');
-
-        const initPosition = () =>{ 
-            let activeItem = document.querySelectorAll('.gnbItem.active');
-            if(activeItem.length>0){
-                let homePosition =  activeItem[0].offsetTop;              
-                gnbBg.style.top = homePosition + 'px';
-                
+        const bar = document.querySelector('.active_bar');
+        const moveBar = () => {
+            const activeItem = document.querySelector('.nav_rt .gnbItem.active');
+            if(activeItem){
+                let position = activeItem.offsetLeft;
+                let width = activeItem.clientWidth / 2 ;
+                let setLeft = position + width - 20;
+                bar.style.opacity = 1
+                bar.style.left = setLeft + "px"; 
             }else{
-                gnbBg.style.display = 'none';
-                gnbBg.classList.add('disabled');
+                bar.style.opacity = 0
             }
         }
+        moveBar();
+        
+        const scrollToTop = () => {
+            window.scrollTo({
+                top:0,
+                behavior : 'smooth'
+            });
+        }
 
-        const moveBg = () => {
-
-            item.forEach((item)=>{
-                let itemPositionTop = item.offsetTop;
-                item.addEventListener('click', () => {
-                    if(gnbBg.classList.contains('disabled')){
-                        gnbBg.classList.remove('disabled');
-                        gnbBg.style.display = 'block';
-                    }
-                    gnbBg.style.top = itemPositionTop + 'px';
-                })
+        const gnbItem = document.querySelectorAll('.nav_rt .gnbItem');
+        gnbItem.forEach((item)=>{
+            item.addEventListener('click', () => {
+                scrollToTop();                
+                let newPosition = item.offsetLeft;
+                let width = item.clientWidth / 2 ;
+                let setLeft = newPosition + width - 20;
+                bar.style.opacity = 1
+                bar.style.left = setLeft + "px";
             })
-        }
+            
+        })
 
-        const initNav = () => {
-            initPosition();
-            moveBg();
-        }
+        const homeItem = document.querySelector('.logo_svg');
+        homeItem.addEventListener('click', () => {
+            bar.style.opacity = 0;
+            scrollToTop();
+        })
         
-        if(item.length>0){
-            initNav();
-        }
-        
-    }, []);
+           
+    },[])
+
+    
 
     return (
-        <nav className="gnb">
-            <div className="inner">
-                <NavLink exact to="/" className="gnbItem" activeClassName="active" ><span>Home</span><img src={icon_sample} alt="icon" className="icon" /></NavLink>
-                <NavLink to="/Profile" className="gnbItem" activeClassName="active" ><span>Profile</span><img src={icon_sample} alt="icon" className="icon" /></NavLink>
-                <NavLink to="/Work" className="gnbItem" activeClassName="active" ><span>Work</span><img src={icon_sample} alt="icon" className="icon" /></NavLink>
-                <NavLink to="/Study" className="gnbItem" activeClassName="active" ><span>Study</span><img src={icon_sample} alt="icon" className="icon" /></NavLink>
-                <NavLink to="/Blog" className="gnbItem" activeClassName="active" ><span>Blog</span><img src={icon_sample} alt="icon" className="icon" /></NavLink>
-                <span className="activeBg" ref={el => {gnbBg = el}}></span>
-            </div>
-        </nav>
+        <header>
+            <nav className="gnb">
+                <div className="inner">
+                    <NavLink exact to="/" className="gnbItem logo"><img src={logo} className="logo_svg" alt="logo"/></NavLink>
+                    <div className="nav_rt">
+                        {/* <NavLink to="/Profile" className="gnbItem" activeClassName="active"><span>About</span></NavLink> */}
+                        <NavLink to="/Work" className="gnbItem" activeClassName="active"><span>Work</span></NavLink>
+                        <NavLink to="/Study" className="gnbItem" activeClassName="active"><span>Study</span></NavLink>
+                        {/* <NavLink to="/Blog" className="gnbItem" activeClassName="active"><span>Blog</span></NavLink> */}
+                        <span className="active_bar"></span>
+                    </div>
+                </div>                
+            </nav>
+        </header>
     );
 };
 
