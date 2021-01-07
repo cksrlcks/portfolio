@@ -26,7 +26,7 @@ const PostDetail = (props) => {
     const [post_author, setAuthor] = useState([]);
 
     useEffect(()=>{
-        fetch(`https://batdog.kr/wp-json/wp/v2/posts/${props.match.params.id}`)
+        fetch(`/wp/wp-json/wp/v2/posts/${props.match.params.id}`)
         .then(res => res.json())
         .then(data => {
             setTitle(data.title.rendered);

@@ -7,7 +7,7 @@ const RecentPostItem = ({item}) => {
     const [imgUrl, setImgUrl] = useState([]);
     useEffect(() => {
 
-        fetch(`https://batdog.kr/wp-json/wp/v2/media/${post.featured_media}`)
+        fetch(`/wp/wp-json/wp/v2/media/${post.featured_media}`)
         .then(res => res.json())
         .then(data => setImgUrl(data.media_details.sizes.full.source_url))
 

@@ -7,7 +7,7 @@ const Blog = () => {
 
     useEffect(() => {
 
-        fetch('https://batdog.kr/wp-json/wp/v2/posts/?categories=3')
+        fetch('/wp/wp-json/wp/v2/posts/?categories=3')
         .then(res => res.json())
         .then(response => setPost(response))
         .catch(err => console.log(err));

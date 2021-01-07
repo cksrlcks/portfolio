@@ -37,7 +37,7 @@ const Study = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://batdog.kr/wp-json/wp/v2/posts/?categories=4&per_page=6&page=${nowPage}`);
+            const response = await fetch(`/wp/wp-json/wp/v2/posts/?categories=4&per_page=6&page=${nowPage}`);
             const totalCount = parseInt(response.headers.get('x-wp-total'));
             const totalPages = parseInt(response.headers.get('x-wp-totalpages'));
             const post = await response.json();
@@ -62,7 +62,7 @@ const Study = () => {
             loadMoreBtn.innerHTML = "마지막 포스트입니다."
         } else{
             const fetchData = async () => {
-                const response = await fetch(`https://batdog.kr/wp-json/wp/v2/posts/?categories=4&per_page=6&page=${nextPage}`);
+                const response = await fetch(`/wp/wp-json/wp/v2/posts/?categories=4&per_page=6&page=${nextPage}`);
                 const totalCount = parseInt(response.headers.get('x-wp-total'));
                 const totalPages = parseInt(response.headers.get('x-wp-totalpages'));
                 const nextPost = await response.json();

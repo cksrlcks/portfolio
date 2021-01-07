@@ -13,7 +13,7 @@ const postShowUp = {
 const RecentPost = () => {
     const [post, setPost] = useState([]);
     useEffect(() => {
-        fetch('https://batdog.kr/wp-json/wp/v2/posts/?categories=2&per_page=4&embed')
+        fetch('/wp/wp-json/wp/v2/posts/?categories=2&per_page=4&embed')
         .then(res => res.json())
         .then(response => {setPost(response);})
         .catch(err => {console.log(err)});
