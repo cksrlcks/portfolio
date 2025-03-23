@@ -23,9 +23,10 @@ body {
   font-family : var(--font-pretendard);
   background: var(--background-base);
   color: var(--color-gray);
+  word-break:keep-all;
 }
 
 b{
-  font-weight:inherit;
+  font-weight:600;
   color:var(--text-white)
 }
