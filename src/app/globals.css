@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  --font-pretendard: 'Pretendard Variable', sans-serif;
+  --font-inter: 'Inter', serif;
+  --background-base: #030614;
+  --background-muted: #080B19;
+  --text-muted: #808FA9;
+  --text-primary: #83BDFF;
+  --text-white: #ffffff;
+}
+
+@theme {
+  --font-inter : var(--font-inter);
+  --color-base: var(--background-base);
+  --color-muted: var(--background-muted); 
+  --color-gray: var(--text-muted); 
+  --color-primary: var(--text-primary); 
+  --color-white: var(--text-white); 
+}
+
+body {
+  font-family : var(--font-pretendard);
+  background: var(--background-base);
+  color: var(--color-gray);
+}
