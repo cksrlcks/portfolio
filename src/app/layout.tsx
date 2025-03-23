@@ -28,7 +28,13 @@ export default function RootLayout({
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'
         />
       </head>
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+      <body
+        className={`${inter.variable} selection:bg-primary antialiased selection:text-white`}
+      >
+        <div className='relative mx-auto min-h-screen max-w-7xl px-8 py-14 lg:px-12 lg:py-20'>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
