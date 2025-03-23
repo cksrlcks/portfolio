@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} selection:bg-primary antialiased selection:text-white`}
       >
-        <div className='relative mx-auto min-h-screen max-w-7xl px-8 py-14 lg:px-12 lg:py-20'>
+        <div className='relative mx-auto min-h-screen max-w-7xl px-8 py-14 lg:px-12 lg:py-32'>
           {children}
         </div>
       </body>

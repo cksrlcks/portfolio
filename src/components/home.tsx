@@ -10,7 +10,7 @@ export function HomeWrapper({ children }: PropsWithChildren) {
 
 export function HomeHeader({ children }: PropsWithChildren) {
   return (
-    <div className='flex-col lg:sticky lg:top-20 lg:left-0 lg:w-[33.333%]'>
+    <div className='flex-col lg:sticky lg:top-32 lg:left-0 lg:w-[33.333%]'>
       {children}
     </div>
   );
