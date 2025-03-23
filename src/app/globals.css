@@ -24,3 +24,8 @@ body {
   background: var(--background-base);
   color: var(--color-gray);
 }
+
+b{
+  font-weight:inherit;
+  color:var(--text-white)
+}
