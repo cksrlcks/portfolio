@@ -7,7 +7,7 @@ interface SectionProps
   extends HTMLAttributes<HTMLDivElement>,
     RefAttributes<HTMLDivElement> {}
 
-export function Section({ id, children }: SectionProps) {
+export default function Section({ id, children }: SectionProps) {
   const { observerRefs } = useScroll();
 
   return (

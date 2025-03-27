@@ -1,4 +1,4 @@
-export function About() {
+export default function About() {
   return (
     <>
       <h2 className='font-inter mb-4 font-semibold text-white lg:hidden'>
