@@ -1,4 +1,6 @@
+import DataCard from '@/components/DataCard';
 import SubHeader from '@/components/SubHeader';
+import { PROJECT_DATA } from '@/data/projects';
 
 export default function ProjectsPage() {
   return (
@@ -8,7 +10,20 @@ export default function ProjectsPage() {
         desc='성공적인 프로젝트 경험을 통해 문제 해결 능력과 협업 역량을 키워왔습니다.'
       />
 
-      <div>(프로젝트 리스트 작성 - 상세하게, 트러블슈팅, 회고링크도 포함)</div>
+      <div>
+        <div className='border-gray/20 mb-14 hidden gap-4 border-b py-6 text-left font-semibold text-white md:flex'>
+          <div className='w-[25%]'>년도</div>
+          <div>내용</div>
+        </div>
+
+        <ul className='flex flex-col gap-15'>
+          {PROJECT_DATA.map((exp, index) => (
+            <li key={index}>
+              <DataCard data={exp} detail />
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

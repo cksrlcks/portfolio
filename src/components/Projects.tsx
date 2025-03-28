@@ -1,6 +1,6 @@
 import DataCard from './DataCard';
 import MoreButton from './MoreButton';
-import { PROJECT_DATA } from '@/data/projects';
+import { PINED_PROJECT_DATA } from '@/data/projects';
 
 export default function Projects() {
   return (
@@ -10,7 +10,7 @@ export default function Projects() {
       </h2>
       <div className='mb-16'>
         <ul className='flex flex-col gap-15'>
-          {PROJECT_DATA.map((item, index) => (
+          {PINED_PROJECT_DATA.map((item, index) => (
             <li key={index}>
               <DataCard data={item} hover />
             </li>

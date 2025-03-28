@@ -114,5 +114,8 @@ export const EXPERIENCE_DATA: Partial<CardData>[] = [
 ];
 
 export const PINED_EXPERIENCE_DATA = EXPERIENCE_DATA.map((item) => {
-  return { ...item, projects: [] };
+  const filtered = { ...item };
+  delete filtered.projects;
+
+  return filtered;
 }).slice(0, 3);

@@ -22,4 +22,13 @@ export type CardData = {
     type: 'github' | 'link';
   }[];
   tags: string[];
+  roles: {
+    title: string;
+    content: string;
+  }[];
+  docs: {
+    title: string;
+    content: string;
+    link: string;
+  }[];
 };
