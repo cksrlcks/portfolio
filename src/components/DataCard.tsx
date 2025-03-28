@@ -151,6 +151,8 @@ export default function DataCard({
                     <a
                       href={item.link}
                       className='inline-flex items-center gap-2 hover:underline'
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
                       <RiLink size={14} />
                       {item.link}

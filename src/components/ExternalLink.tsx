@@ -15,6 +15,7 @@ export default function ExternalLink({
     <a
       href={href}
       target='_blank'
+      rel='noopener noreferrer'
       className='font-inter inline-flex items-center gap-2.5 text-sm font-semibold text-white hover:underline'
     >
       {type === 'link' ? <RiLink size={14} /> : <RiGithubFill size={14} />}
