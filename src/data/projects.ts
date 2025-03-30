@@ -163,13 +163,13 @@ export const PROJECT_DATA: Partial<CardData>[] = [
         title: '페이지 전환 시 prefetch로 인해 middleware가 동작하지 않는 문제',
         content:
           '페이지 렌더링 시 발생하는 prefetch로 인해 middleware를 거치지 않고 페이지가 전환되는 문제를 겪었고, 이를 해결하며 클라이언트 사이드 라우트 캐시를 어떻게 제어할 수 있는지에 대해 정리했습니다.',
-        link: '#작성중',
+        link: 'https://heavy-bear.tistory.com/22',
       },
       {
         title: '랜덤처럼 보이지만 랜덤이 아닌 색상코드',
         content:
           'API의 한계로 태그 색상과 기본 아바타 배경색을 저장할 수 없어, 매번 달라 보이지 않도록 일정한 규칙 기반의 색상 매칭 로직을 구현해 일관성을 유지했습니다.',
-        link: '#작성중',
+        link: 'https://heavy-bear.tistory.com/21',
       },
       {
         title: '중급 프로젝트 회고',
