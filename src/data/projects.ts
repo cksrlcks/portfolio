@@ -105,6 +105,12 @@ export const PROJECT_DATA: Partial<CardData>[] = [
         link: '#작성중',
       },
       {
+        title: 'Opengraph image를 다이나믹하게 제공하기',
+        content:
+          'API로부터 받아온 데이터를 활용하여, 서버에서 직접 Opengraph image를 생성하여 제공하는 과정중에 겪은 문제점을 정리했습니다.',
+        link: 'https://heavy-bear.tistory.com/23',
+      },
+      {
         title: '고급 프로젝트 회고',
         content:
           '코드잇 스프린트 마지막 프로젝트를 마무리후 회고를 작성했습니다.',
