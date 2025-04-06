@@ -102,7 +102,7 @@ export const PROJECT_DATA: Partial<CardData>[] = [
         title: 'NextAuth Crendentials Provider Custom',
         content:
           'Oauth 로그인후 전달받은 token을 백앤드API로 전송하여, 유저정보를 가져오는 상황에서 Nextauth의 Credentials Provider로 효율적으로 accessToken과 Session을 관리하는 방법을 정리했습니다.',
-        link: '#작성중',
+        link: 'https://heavy-bear.tistory.com/24',
       },
       {
         title: 'Opengraph image를 다이나믹하게 제공하기',
