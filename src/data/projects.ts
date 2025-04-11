@@ -114,7 +114,7 @@ export const PROJECT_DATA: Partial<CardData>[] = [
         title: '고급 프로젝트 회고',
         content:
           '코드잇 스프린트 마지막 프로젝트를 마무리후 회고를 작성했습니다.',
-        link: '#작성중',
+        link: 'https://heavy-bear.tistory.com/25',
       },
     ],
   },
