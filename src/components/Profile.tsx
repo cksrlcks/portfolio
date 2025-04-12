@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { RiGithubFill } from '@remixicon/react';
+import { RiFilePdf2Fill, RiGithubFill } from '@remixicon/react';
 import TistoryIcon from '@/assets/img/icon-tistory.svg';
 
 export default function Profile() {
@@ -17,6 +17,15 @@ export default function Profile() {
         소중히 여기며, 늘 궁금해하고 배워가며 성장합니다.
       </p>
       <div className='font-inter flex flex-wrap gap-x-4.5 gap-y-2 text-sm lg:mb-14'>
+        <a
+          href='https://drive.google.com/file/d/1vUtyiM5IVSyAl_ZEHGmrVaCraKhqTZb9/view?usp=drive_link'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='flex items-center gap-1.5 font-semibold text-white hover:underline'
+        >
+          <RiFilePdf2Fill size={16} />
+          RESUME
+        </a>
         <a
           href='https://github.com/cksrlcks'
           target='_blank'

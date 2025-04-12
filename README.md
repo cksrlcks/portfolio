@@ -4,7 +4,7 @@
 <h4>
   <a href="https://heavybear-portfolio.vercel.app
 ">Portfolio Site</a> |
-  <a href="#">Resume(준비중)</a>
+  <a href="https://drive.google.com/file/d/1vUtyiM5IVSyAl_ZEHGmrVaCraKhqTZb9/view?usp=drive_link">Resume</a>
 </h4>   
 
 ---
