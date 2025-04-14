@@ -1,7 +1,8 @@
 import { CardData } from '@/types';
 
-export const PROJECT_DATA: Partial<CardData>[] = [
+export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
   {
+    id: 'maskit',
     thumbnail: '/projects/maskit.svg',
     year: 2025,
     badge: 'Personal',
@@ -44,6 +45,7 @@ export const PROJECT_DATA: Partial<CardData>[] = [
     ],
   },
   {
+    id: 'epigram',
     thumbnail: '/projects/epigram.svg',
     year: 2025,
     badge: 'Team',
@@ -119,6 +121,7 @@ export const PROJECT_DATA: Partial<CardData>[] = [
     ],
   },
   {
+    id: 'taskify',
     thumbnail: '/projects/taskify.svg',
     year: 2024,
     badge: 'Team',

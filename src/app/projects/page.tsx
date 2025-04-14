@@ -17,9 +17,9 @@ export default function ProjectsPage() {
         </div>
 
         <ul className='flex flex-col gap-15'>
-          {PROJECT_DATA.map((exp, index) => (
-            <li key={index}>
-              <DataCard data={exp} detail />
+          {PROJECT_DATA.map((project) => (
+            <li key={project.id} id={project.id} className='scroll-m-10'>
+              <DataCard data={project} detail />
             </li>
           ))}
         </ul>

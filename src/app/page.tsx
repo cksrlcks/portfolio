@@ -4,7 +4,7 @@ import Nav from '@/components/Nav';
 import { HomeContent, HomeHeader, HomeWrapper } from '@/components/Home';
 import Section from '@/components/Section';
 import About from '@/components/About';
-import Experiencs from '@/components/Experiencs';
+import Experiences from '@/components/Experiences';
 import Projects from '@/components/Projects';
 
 export default function Home() {
@@ -19,8 +19,8 @@ export default function Home() {
           <Section id='about'>
             <About />
           </Section>
-          <Section id='experiencs'>
-            <Experiencs />
+          <Section id='experiences'>
+            <Experiences />
           </Section>
           <Section id='projects'>
             <Projects />

@@ -1,7 +1,8 @@
 import { CardData } from '@/types';
 
-export const EXPERIENCE_DATA: Partial<CardData>[] = [
+export const EXPERIENCE_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
   {
+    id: 'codeit',
     year: 2025,
     title: '코드잇 스프린트 프론트엔드 12기 수료',
     meta: ['2024.10 ~ 2025.04'],
@@ -10,6 +11,7 @@ export const EXPERIENCE_DATA: Partial<CardData>[] = [
     contents: [],
   },
   {
+    id: 'uxis',
     year: 2024,
     title: '(주)유시스',
     meta: ['UXUI팀 과장', '2019.02 ~ 2024.08'],
@@ -94,6 +96,7 @@ export const EXPERIENCE_DATA: Partial<CardData>[] = [
     ],
   },
   {
+    id: 'mipo',
     year: 2018,
     title: '현대미포조선',
     meta: ['생산관리 대리', '2013.11 ~ 2018.11'],
@@ -107,6 +110,7 @@ export const EXPERIENCE_DATA: Partial<CardData>[] = [
     ],
   },
   {
+    id: 'univercity',
     year: 2013,
     title: '울산대학교 조선해양공학부 졸업',
     meta: ['학사', '2008.03 ~ 2014.02'],

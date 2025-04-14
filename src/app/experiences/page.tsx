@@ -16,8 +16,8 @@ export default function ExperiencesPage() {
         </div>
 
         <ul className='flex flex-col gap-15'>
-          {EXPERIENCE_DATA.map((exp, index) => (
-            <li key={index}>
+          {EXPERIENCE_DATA.map((exp) => (
+            <li key={exp.id} id={exp.id} className='scroll-m-10'>
               <DataCard data={exp} />
             </li>
           ))}
