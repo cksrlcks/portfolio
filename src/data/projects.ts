@@ -22,7 +22,15 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
         type: 'github',
       },
     ],
-    tags: ['React', 'Jotai', 'Canvas'],
+    tags: [
+      'React',
+      'Typescript',
+      'Jotai',
+      'Tailwind CSS',
+      'Shadcn',
+      'Canvas',
+      'Konva.js',
+    ],
     docs: [
       {
         title: 'React에서 Google Drive Picker 사용하기',
@@ -80,7 +88,7 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
       {
         title: 'NextAuth, Custom Oauth 연동',
         content:
-          '소셜 로그인 후 프론트엔드에서 받은 토큰을 백엔드로 전달하기 위해, NextAuth의 Custom Credentials Provider를 활용해 인증 플로우를 커스터마이징했습니다.',
+          '소셜 로그인 후 프론트엔드에서 받은 인가코드를 백엔드로 전달하기 위해, NextAuth의 Custom Credentials Provider를 활용해 인증 플로우를 커스터마이징했습니다.',
       },
       {
         title: '감정차트 및 공용 컴포넌트 작업',
@@ -103,7 +111,7 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
       {
         title: 'NextAuth Crendentials Provider Custom',
         content:
-          'Oauth 로그인후 전달받은 token을 백앤드API로 전송하여, 유저정보를 가져오는 상황에서 Nextauth의 Credentials Provider로 효율적으로 accessToken과 Session을 관리하는 방법을 정리했습니다.',
+          'Oauth 로그인후 전달받은 인가코드를 백앤드API로 전송하여, 유저정보를 가져오는 상황에서 Nextauth의 Credentials Provider로 효율적으로 accessToken과 Session을 관리하는 방법을 정리했습니다.',
         link: 'https://heavy-bear.tistory.com/24',
       },
       {
