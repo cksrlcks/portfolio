@@ -42,6 +42,10 @@ export const EXPERIENCE_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
         tags: ['UX/UI', 'Publishing'],
       },
       {
+        name: '부산일포유 홈페이지 구축',
+        tags: ['UX/UI', 'Publishing'],
+      },
+      {
         name: '아이오티플랙스 포가드 관제시스템',
         tags: ['UX/UI', 'Publishing', 'React'],
       },
