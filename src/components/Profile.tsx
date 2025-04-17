@@ -1,7 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { RiFilePdf2Fill, RiGithubFill } from '@remixicon/react';
-import TistoryIcon from '@/assets/img/icon-tistory.svg';
+import {
+  RiArchiveStackFill,
+  RiFilePdf2Fill,
+  RiGithubFill,
+} from '@remixicon/react';
 
 export default function Profile() {
   return (
@@ -35,15 +37,14 @@ export default function Profile() {
           <RiGithubFill size={16} />
           GITHUB
         </a>
-        <a
-          href='https://heavy-bear.tistory.com/'
-          target='_blank'
-          rel='noopener noreferrer'
+        <Link
+          href='/blog'
           className='flex items-center gap-1.5 font-semibold text-white hover:underline'
         >
-          <Image src={TistoryIcon} alt='tistory' className='w-4' />
+          <RiArchiveStackFill size={16} className='text-green-400' />
           BLOG
-        </a>
+        </Link>
+
         <a
           href='mailto:chanki.kim89@gmail.com'
           className='transition-colors hover:text-white'
