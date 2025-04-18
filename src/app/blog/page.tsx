@@ -5,7 +5,7 @@ export default function BlogListPage() {
   const posts = getAllPosts();
 
   return (
-    <div>
+    <div className='mx-auto max-w-3xl'>
       {posts.map((post) => (
         <Link
           key={`${post.metadata.title}${post.metadata.date}`}
