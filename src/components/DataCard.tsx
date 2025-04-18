@@ -36,7 +36,10 @@ export default function DataCard({
         <div className='w-[25%]'>{year}</div>
         <div className='flex-1'>
           <div
-            className={cn(detail && 'md:flex md:flex-row-reverse md:gap-10')}
+            className={cn(
+              detail && 'md:flex md:flex-row-reverse md:gap-10',
+              'mb-10',
+            )}
           >
             <div className={cn('w-full', detail && 'w-full md:w-[30%]')}>
               {thumbnail && (
@@ -63,12 +66,12 @@ export default function DataCard({
                 </ul>
               )}
 
-              <div className='mb-8 flex flex-col gap-6'>
+              <div className='mb-4 flex flex-col gap-6'>
                 <p>{description}</p>
 
                 {contents?.map((content, index) => (
                   <div className='text-sm' key={index}>
-                    <h4 className='mb-2 text-white'>{content.subTitle}</h4>
+                    <h4 className='mb-6 text-white'>{content.subTitle}</h4>
                     <ul className='flex flex-col gap-1'>
                       {content.items.map((task) => (
                         <li key={task}>{task}</li>
@@ -107,7 +110,7 @@ export default function DataCard({
                 <div className='text-sm' key={index}>
                   <ul className='flex flex-col'>
                     <li>
-                      <div className='border-gray/20 mb-4 border-b pb-4'>
+                      <div className='border-gray/20 mb-5 border-b pb-5'>
                         <div className='flex flex-col gap-6 md:flex-row'>
                           <div className='flex-1 pt-1.5 text-white'>
                             {project.name}
@@ -128,10 +131,10 @@ export default function DataCard({
 
           {roles && (
             <div className='mt-8 text-sm'>
-              <h4 className='mb-2 text-white'>역할</h4>
+              <h4 className='mb-6 text-white'>주요 역할</h4>
               <ul className='flex flex-col gap-1'>
                 {roles.map((item, index) => (
-                  <li key={index} className='border-gray/20 mb-4 border-b py-4'>
+                  <li key={index} className='border-gray/20 mb-5 border-b pb-5'>
                     <h5 className='mb-1.5 text-white'>{item.title}</h5>
                     <div className='mb-2'>{item.content}</div>
                   </li>
@@ -142,10 +145,10 @@ export default function DataCard({
 
           {docs && (
             <div className='mt-8 text-sm'>
-              <h4 className='mb-2 text-white'>회고 및 문서</h4>
+              <h4 className='mb-6 text-white'>회고 및 문서</h4>
               <ul className='flex flex-col gap-1'>
                 {docs.map((item, index) => (
-                  <li key={index} className='border-gray/20 mb-4 border-b py-4'>
+                  <li key={index} className='border-gray/20 mb-5 border-b pb-5'>
                     <h5 className='mb-1.5 text-white'>{item.title}</h5>
                     <div className='mb-2'>{item.content}</div>
                     <a
