@@ -44,12 +44,12 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
           '모든 이모지를 이미지로 제공하기 어려워 기본 이모지 폰트를 사용하려 했지만, macOS에서는 SVG 형식이 아닌 이모지가 사용되어 호환 이슈가 발생했습니다. 이를 해결하기 위해 Noto Color Emoji 웹폰트를 적용했습니다.',
         link: 'https://heavy-bear.tistory.com/18',
       },
-      {
-        title: '기능과 관리하는 상태가 많아진 canvas context를 개선',
-        content:
-          'Canvas 관련 기능들을 context로 통합했지만, 관리해야 할 상태가 많아지면서 기능 추가 시 복잡도가 높아졌습니다. 이를 해결하기 위해 상태를 하나의 객체로 묶고, Jotai를 도입해 보다 효율적으로 상태를 관리했습니다.',
-        link: '#작성중',
-      },
+      // {
+      //   title: '기능과 관리하는 상태가 많아진 canvas context를 개선',
+      //   content:
+      //     'Canvas 관련 기능들을 context로 통합했지만, 관리해야 할 상태가 많아지면서 기능 추가 시 복잡도가 높아졌습니다. 이를 해결하기 위해 상태를 하나의 객체로 묶고, Jotai를 도입해 보다 효율적으로 상태를 관리했습니다.',
+      //   link: '#작성중',
+      // },
     ],
   },
   {
@@ -86,7 +86,17 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
     ],
     roles: [
       {
-        title: 'NextAuth, Custom Oauth 연동',
+        title: '스토리북 배포 설정',
+        content:
+          'PR이 제출되거나 main 브랜치에 머지될 때마다, 자동으로 Storybook 프리뷰 링크가 생성되도록 GitHub Actions를 설정하였습니다.',
+      },
+      {
+        title: 'middleware 및 API proxy, axios 설정',
+        content:
+          'Next.js middleware로 인증이 필요한 페이지는 세션이 없을 경우 로그인 페이지로 리다이렉트되며, API 요청은 catch-all 라우트를 통해 서버에서 토큰을 자동으로 포함해 백엔드로 전달되도록 구성했습니다.',
+      },
+      {
+        title: '소셜 로그인 구현',
         content:
           '소셜 로그인 후 프론트엔드에서 받은 인가코드를 백엔드로 전달하기 위해, NextAuth의 Custom Credentials Provider를 활용해 인증 플로우를 커스터마이징했습니다.',
       },
@@ -103,7 +113,7 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
     ],
     docs: [
       {
-        title: 'NextAuth Crendentials Sigin과 Postman 연동',
+        title: 'NextAuth Crendentials SignIn과 Postman 연동',
         content:
           'NextAuth에서 HTTPOnly 쿠키로 저장된 accessToken을 Postman에서 효율적으로 활용하기 위한 방법을 정리했습니다.',
         link: 'https://heavy-bear.tistory.com/20',
