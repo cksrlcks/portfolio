@@ -1,6 +1,7 @@
-import RootNav from '@/components/RootNav';
-import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import RootNav from '@/components/RootNav';
+import ScrollTopButton from '@/components/ScrollTopButton';
 import './globals.css';
 
 const inter = Inter({
@@ -39,9 +40,10 @@ export default function RootLayout({
         className={`${inter.variable} selection:bg-primary antialiased selection:text-white`}
       >
         <div className='fixed top-[-20vw] left-1/2 h-[100vw] w-[120vw] -translate-1/2 rounded-full bg-blue-500 opacity-10 blur-3xl md:top-[-14vw] md:h-[60vw] md:w-[80vw]'></div>
-        <div className='relative mx-auto min-h-screen max-w-7xl px-8 py-14 lg:px-12 lg:py-32'>
+        <div className='relative mx-auto min-h-screen max-w-7xl px-8 py-12 lg:px-12 lg:py-32'>
           <RootNav />
           {children}
+          <ScrollTopButton />
         </div>
       </body>
     </html>

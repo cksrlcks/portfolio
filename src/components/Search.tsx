@@ -1,15 +1,16 @@
 'use client';
 
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Fuse from 'fuse.js';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Post } from '@/types';
 import { cn } from '@/utils/helper';
 import { getPaginationItems } from '@/utils/pagination';
 import { RiLoader4Line } from '@remixicon/react';
-import Fuse from 'fuse.js';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Pagination from './Pagination';
 import PostList from './PostList';
+import Placeholder from './Placeholder';
 
 type SearchProps = {
   posts: Post[];
@@ -69,18 +70,14 @@ export default function Search({ posts }: SearchProps) {
 
   const renderResult = () => {
     if (!keyword || !debouncedValue) {
-      return (
-        <div className='flex items-center justify-center p-6'>
-          블로그 글을 검색할 수 있어요
-        </div>
-      );
+      return <Placeholder>블로그 글을 검색할 수 있어요</Placeholder>;
     }
 
     if (searchResult.length === 0) {
       return (
-        <div className='flex items-center justify-center p-6'>
+        <Placeholder>
           <b>{debouncedValue}</b>로 검색된 결과가 없어요
-        </div>
+        </Placeholder>
       );
     }
 

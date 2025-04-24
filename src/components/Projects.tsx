@@ -15,11 +15,11 @@ export default function Projects() {
 
   return (
     <>
-      <h2 className='font-inter mb-4 font-semibold text-white lg:hidden'>
+      <h2 className='font-inter mb-8 font-semibold text-white lg:hidden'>
         Projects
       </h2>
       <div className='mb-16'>
-        <ul className='flex flex-col gap-15'>
+        <ul className='flex flex-col md:gap-15'>
           {PINED_PROJECT_DATA.map((project, index) => (
             <li
               key={index}
