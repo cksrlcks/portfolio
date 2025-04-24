@@ -1,11 +1,11 @@
 import ScrollProvider from '@/context/ScrollProvider';
 import Profile from '@/components/Profile';
-import Nav from '@/components/Nav';
 import { HomeContent, HomeHeader, HomeWrapper } from '@/components/Home';
 import Section from '@/components/Section';
 import About from '@/components/About';
 import Experiences from '@/components/Experiences';
 import Projects from '@/components/Projects';
+import ScrollSpy from '@/components/ScrollSpy';
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <ScrollProvider>
         <HomeHeader>
           <Profile />
-          <Nav />
+          <ScrollSpy />
         </HomeHeader>
         <HomeContent>
           <Section id='about'>

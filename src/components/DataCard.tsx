@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { CardData } from '@/types';
 import Chip from './Chip';
 import ExternalLink from './ExternalLink';
 import { cn } from '@/utils/helper';
+import { CardData } from '@/types';
 import { RiLink } from '@remixicon/react';
 
 interface CardProps {
@@ -44,7 +44,7 @@ export default function DataCard({
             <div className={cn('w-full', detail && 'w-full md:w-[30%]')}>
               {thumbnail && (
                 <figure className='relative mb-8 aspect-[1.9] overflow-hidden rounded-sm'>
-                  <Image src={thumbnail} alt={title || 'thumnail'} fill />
+                  <Image src={thumbnail} alt={title || 'thumbnail'} fill />
                 </figure>
               )}
             </div>
@@ -168,7 +168,7 @@ export default function DataCard({
         </div>
       </div>
       {hover && (
-        <span className='bg-muted pointer-events-none absolute top-1/2 left-1/2 h-[calc(100%+60px)] w-[calc(100%+60px)] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/4 opacity-0 transition-opacity lg:group-hover:opacity-100'></span>
+        <span className='pointer-events-none absolute top-1/2 left-1/2 h-[calc(100%+60px)] w-[calc(100%+60px)] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/4 bg-white/4 opacity-0 backdrop-blur-xl transition-opacity lg:group-hover:opacity-100'></span>
       )}
     </div>
   );

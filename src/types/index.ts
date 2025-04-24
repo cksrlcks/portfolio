@@ -1,6 +1,7 @@
 export const sections = ['about', 'experiences', 'projects'] as const;
 export type SectionType = (typeof sections)[number] | null;
 
+// TODO: about, experience, project 별로 타입 분리
 export type CardData = {
   id: string;
   thumbnail: string;
@@ -32,4 +33,16 @@ export type CardData = {
     content: string;
     link: string;
   }[];
+};
+
+export type Metadata = {
+  title: string;
+  description: string;
+  date: string;
+};
+
+export type Post = {
+  slug: string;
+  metadata: Metadata;
+  content: string;
 };

@@ -1,9 +1,5 @@
 import Link from 'next/link';
-import {
-  RiArchiveStackFill,
-  RiFilePdf2Fill,
-  RiGithubFill,
-} from '@remixicon/react';
+import { RiFilePdf2Fill, RiGithubFill } from '@remixicon/react';
 
 export default function Profile() {
   return (
@@ -37,13 +33,6 @@ export default function Profile() {
           <RiGithubFill size={16} />
           GITHUB
         </a>
-        <Link
-          href='/blog'
-          className='flex items-center gap-1.5 font-semibold text-white hover:underline'
-        >
-          <RiArchiveStackFill size={16} className='text-green-400' />
-          BLOG
-        </Link>
 
         <a
           href='mailto:chanki.kim89@gmail.com'

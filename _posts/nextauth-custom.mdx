@@ -28,7 +28,7 @@ OAuth 기반 소셜 로그인을 구현할 때, 대부분은 인증 과정을 �
 
 이로 인해 저희팀 내에서는 공식 Provider를 사용하지 않고, 프론트엔드에서 받은 인가 코드를 백엔드로 전달하여 인증을 완료한 뒤, 프로젝트 전용 액세스토큰과 사용자 정보를 받아오는 흐름을 별도 구현해야한다는 의견이 나왔습니다..
 
-![카카오 로그인 과정](/images/posts/nextauth/image-1.png)
+![카카오 로그인 과정](/posts/nextauth/image-1.png)
 
 ## 고민과 아이디어
 
@@ -154,11 +154,11 @@ OAuth 인증 흐름에서 인가 코드를 서버 측 route handler에서 처리
   
 또한 클라이언트에서 인증 처리를 수행하면 **로그인 진행 상태를 UI로 보여줄 수 있는 장점**도 있습니다. 예를 들어, 카카오 로그인 중이라는 메시지나 로딩 스피너 등을 통해 사용자 경험을 개선할 수 있었습니다.
 
-![로그인 과정](/images/posts/nextauth/image-2.gif)
+![로그인 과정](/posts/nextauth/image-2.gif)
 
 ## 수정된 인증 흐름도
 
-![수정된 인증 흐름도](/images/posts/nextauth/image-3.png)
+![수정된 인증 흐름도](/posts/nextauth/image-3.png)
 
 ## 정리
 

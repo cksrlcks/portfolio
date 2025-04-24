@@ -15,7 +15,7 @@ Next.js에서 Open Graph 이미지를 다이나믹하게 생성하는 방법을 
 
 ## 폴더 구조 및 기본 세팅
 
-```
+```tsx
 /public
   └─ open-bg.png
   └─ IropkeBatang.woff
@@ -59,7 +59,7 @@ Open Graph 이미지를 생성하는 데 사용된 next/og 패키지의 ImageRes
 
 ## 전체코드
 
-```
+```tsx
 import { ImageResponse } from 'next/og';
 import { headers } from 'next/headers';
 import { truncateText } from '@/utils/truncateText';

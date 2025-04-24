@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { cn } from '@/utils/helper';
-import { sections } from '@/types';
-import { useScroll } from '@/context/ScrollProvider';
 
-export default function Nav() {
+import { useScroll } from '@/context/ScrollProvider';
+import { sections } from '@/types';
+import { cn } from '@/utils/helper';
+
+export default function ScrollSpy() {
   const { activeSection } = useScroll();
 
   return (
