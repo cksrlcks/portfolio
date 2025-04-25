@@ -4,6 +4,7 @@ import ExternalLink from './ExternalLink';
 import { cn } from '@/utils/helper';
 import { CardData } from '@/types';
 import { RiLink } from '@remixicon/react';
+import Link from 'next/link';
 
 interface CardProps {
   data: Partial<CardData>;
@@ -151,15 +152,14 @@ export default function DataCard({
                   <li key={index} className='border-gray/20 mb-5 border-b pb-5'>
                     <h5 className='mb-1.5 text-white'>{item.title}</h5>
                     <div className='mb-2'>{item.content}</div>
-                    <a
+                    <Link
                       href={item.link}
                       className='inline-flex items-center gap-2 hover:underline'
                       target='_blank'
-                      rel='noopener noreferrer'
                     >
                       <RiLink size={14} />
-                      {item.link}
-                    </a>
+                      포스트 보기
+                    </Link>
                   </li>
                 ))}
               </ul>

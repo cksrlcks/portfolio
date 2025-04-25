@@ -36,13 +36,13 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
         title: 'React에서 Google Drive Picker 사용하기',
         content:
           '마스킷 프로젝트에서 이미지의 입력방식을 다방면으로 확장하기 위해서 구글드라이브와, 드롭박스를 통해 업로드할 수 있게 구현 중에 구글 드라이브 피커 사용 시 문제를 겪게 되어서 정리해 보았습니다.',
-        link: 'https://heavy-bear.tistory.com/17',
+        link: '/post/maskit-googledrive',
       },
       {
         title: '이모지 폰트 적용을 통한 UI 일관성 유지',
         content:
           '모든 이모지를 이미지로 제공하기 어려워 기본 이모지 폰트를 사용하려 했지만, macOS에서는 SVG 형식이 아닌 이모지가 사용되어 호환 이슈가 발생했습니다. 이를 해결하기 위해 Noto Color Emoji 웹폰트를 적용했습니다.',
-        link: 'https://heavy-bear.tistory.com/18',
+        link: '/post/maskit-emoji',
       },
       // {
       //   title: '기능과 관리하는 상태가 많아진 canvas context를 개선',
@@ -116,25 +116,25 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
         title: 'NextAuth Crendentials SignIn과 Postman 연동',
         content:
           'NextAuth에서 HTTPOnly 쿠키로 저장된 accessToken을 Postman에서 효율적으로 활용하기 위한 방법을 정리했습니다.',
-        link: 'https://heavy-bear.tistory.com/20',
+        link: '/post/nextauth-postman',
       },
       {
         title: 'NextAuth Crendentials Provider Custom',
         content:
           'Oauth 로그인후 전달받은 인가코드를 백앤드API로 전송하여, 유저정보를 가져오는 상황에서 Nextauth의 Credentials Provider로 효율적으로 accessToken과 Session을 관리하는 방법을 정리했습니다.',
-        link: 'https://heavy-bear.tistory.com/24',
+        link: '/post/nextauth-custom',
       },
       {
         title: 'Opengraph image를 다이나믹하게 제공하기',
         content:
           'API로부터 받아온 데이터를 활용하여, 서버에서 직접 Opengraph image를 생성하여 제공하는 과정중에 겪은 문제점을 정리했습니다.',
-        link: 'https://heavy-bear.tistory.com/23',
+        link: '/post/nextjs-opengraph',
       },
       {
         title: '고급 프로젝트 회고',
         content:
           '코드잇 스프린트 마지막 프로젝트를 마무리후 회고를 작성했습니다.',
-        link: 'https://heavy-bear.tistory.com/25',
+        link: '/post/sprint-final-project',
       },
     ],
   },
@@ -190,19 +190,19 @@ export const PROJECT_DATA: (Partial<CardData> & Pick<CardData, 'id'>)[] = [
         title: '페이지 전환 시 prefetch로 인해 middleware가 동작하지 않는 문제',
         content:
           '페이지 렌더링 시 발생하는 prefetch로 인해 middleware를 거치지 않고 페이지가 전환되는 문제를 겪었고, 이를 해결하며 클라이언트 사이드 라우트 캐시를 어떻게 제어할 수 있는지에 대해 정리했습니다.',
-        link: 'https://heavy-bear.tistory.com/22',
+        link: '/post/nextjs-prefetch',
       },
       {
         title: '랜덤처럼 보이지만 랜덤이 아닌 색상코드',
         content:
           'API의 한계로 태그 색상과 기본 아바타 배경색을 저장할 수 없어, 매번 달라 보이지 않도록 일정한 규칙 기반의 색상 매칭 로직을 구현해 일관성을 유지했습니다.',
-        link: 'https://heavy-bear.tistory.com/21',
+        link: '/post/sprint-second-color',
       },
       {
         title: '중급 프로젝트 회고',
         content:
           '코드잇 스프린트 중급 프로젝트를 마무리후 회고를 작성했습니다.',
-        link: 'https://heavy-bear.tistory.com/19',
+        link: '/post/sprint-second-project',
       },
     ],
   },

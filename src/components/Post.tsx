@@ -42,6 +42,9 @@ export function PostBody({ post }: PostBodyProps) {
         components={{
           h2: (props) => <h2 {...props} className='text-xl font-semibold' />,
           h3: (props) => <h3 {...props} className='text-lg font-semibold' />,
+          h4: (props) => (
+            <h4 {...props} className='text-[17px] font-semibold' />
+          ),
           img: async (props: { src: string; alt: string }) => {
             const { src, alt } = props;
             const originSize = await imageSizeFromFile(
