@@ -30,11 +30,7 @@ export default function Blog({ posts }: PostsProps) {
   return (
     <>
       <PostList posts={items} />
-      <Pagination
-        pageNumbers={paginationNumbers}
-        currentPage={currentPage}
-        path='/post'
-      />
+      <Pagination pageNumbers={paginationNumbers} currentPage={currentPage} />
     </>
   );
 }

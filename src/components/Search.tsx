@@ -87,11 +87,7 @@ export default function Search({ posts }: SearchProps) {
           <PostList posts={items} />
         </div>
 
-        <Pagination
-          pageNumbers={paginationNumbers}
-          currentPage={currentPage}
-          path='/post'
-        />
+        <Pagination pageNumbers={paginationNumbers} currentPage={currentPage} />
       </>
     );
   };

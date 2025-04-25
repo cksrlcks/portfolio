@@ -1,23 +1,28 @@
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 type PaginationProps = {
   pageNumbers: number[];
   currentPage: number;
-  path: string;
 };
 
 export default function Pagination({
   pageNumbers,
   currentPage,
-  path,
 }: PaginationProps) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const createQueryParams = (pageNumber: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(pageNumber));
+    return params.toString();
+  };
+
   return (
     <ul className='flex items-center justify-center gap-0.5'>
       {pageNumbers.map((item) => {
-        const searchParams = new URLSearchParams();
-        searchParams.append('page', String(item));
-
-        const href = `${path}?${searchParams.toString()}`;
+        const href = `${pathname}?${createQueryParams(item)}`;
 
         return (
           <li
