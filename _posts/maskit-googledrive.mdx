@@ -1,0 +1,107 @@
+---
+title: 'React에서 Google Drive Picker 사용하기'
+date: '2025-01-16'
+description: 'React 프로젝트에서 Google Drive Picker를 구현하면서 겪은 인증 토큰과 파일 접근 관련 문제를 해결하는 방법을 다룹니다. react-google-drive-picker 패키지 사용법과 파일 다운로드 구현 방법을 정리했습니다.'
+---
+
+마스킷 프로젝트에서 이미지의 입력방식을 다방면으로 확장하기 위해서 구글드라이브와, 드롭박스를 통해 업로드할 수 있게 구현 중에 구글 드라이브 피커 사용 시 문제를 겪게 되어서 정리해 보았습니다.
+
+## 현재 상황
+
+-   react-google-drive-picker 패키지를 사용
+-   해당 패키지는 useDrivePicker라는 훅을 제공하며, 이 훅에서 openPicker함수와 authResponse를 사용할 수 있습니다.
+-   openPicker에는 google drive를 실행하기 위한 각종 토큰과 옵션들을 넣을 수 있습니다.
+-   그중에 callbackFunction은 picker에서 파일은 선택한 후에 작업할 콜백함수를 작성하면 됩니다.
+-   마스킷프로젝트에서는 이 콜백 안에서 제공된 이미지 파일 정보를 가지고 캔버스에 blob형태로 이미지를 그리려고 합니다.
+
+## 문제점
+
+### 문제점 1
+
+-   useDrivePicker 훅에서 제공하는 authResponse의 값이 openPicker의 함수가 호출되었을 때 당시에 undefined 상태.
+-   정확히는 callbackFunction에 작성된 함수내부에서 authResponse값을 확인해 보면 undefined로 확인이 됨.
+
+### 문제점 2
+
+-   사용자가 선택한 파일정보를 정확히 가져올 수는 있습니다.
+-   하지만 파일 정보 내부의 각종 url 등으로는 이미지를 정확히 가져올 수가 없었습니다. (보안 때문인 것 같습니다.)
+-   그래서 파일의 id만 추출하여, 직접적으로 파일을 강제로 받아오려고 했으나 권한오류로 실패했습니다.
+-   이때 **문제점 1에서** 획득하지 못한 authResponse의 token이 필요합니다.
+
+## 문제원인
+
+-   구글드라이버에서 얻은 파일정보의 url로 파일을 그냥 요청 시에는 소유자가 아니라서 권한오류가 납니다.
+-   openPicker를 실행했을 당시에는 token정보가 authResult안에 바로 담기지 않습니다. (함수 실행 후 구글 로그인이 까지 완료된 상태에 authResult에 토큰이 담깁니다.)
+
+## 해결방법
+
+-   openPicker의 callbackFunction에서는 파일의 정보만 가져와서 state에 저장
+-   authResult에 변화가 생겨서 token이 제대로 담겼을 때(구글 로그인 완료 후), 이미지파일을 fetch 하는 useEffect를 활용
+-   이때 저장된 token을 요청 header에 넣어서 요청
+
+## 해결한 코드
+
+```tsx
+import { useEffect, useState } from "react";
+import useDrivePicker from "react-google-drive-picker";
+import { toast } from "./useToast";
+
+export default function useGoogleDrive() {
+  const [fileId, setFileId] = useState("");
+  const [blob, setBlob] = useState<Blob | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [openPicker, authResult] = useDrivePicker();
+
+  const token = authResult?.access_token;
+
+  useEffect(() => {
+    if (!fileId || !token) return;
+
+    (async function getFileDataWithToken() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        const blob = await response.blob();
+        setBlob(blob);
+      } catch (error) {
+        console.error(error);
+        toast({
+          duration: 2000,
+          variant: "destructive",
+          title: "권한이 없어요",
+          description: "구글드라이브에서 데이터를 가져오는데 실패했어요",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [token, fileId]);
+
+  function handleOpenPicker() {
+    openPicker({
+      clientId: import.meta.env.VITE_GOOGLE_CLOUD_CLIENT_ID,
+      developerKey: import.meta.env.VITE_GOOGLE_CLOUD_API_KEY,
+      viewId: "DOCS",
+      viewMimeTypes: "image/jpeg,image/png,image/gif",
+      token: token,
+      supportDrives: true,
+      multiselect: false,
+      callbackFunction: async (data) => {
+        if (data.action === "picked") {
+          const fileId = data.docs[0].id;
+          setFileId(fileId);
+        }
+      },
+    });
+  }
+
+  return { blob, isLoading, handleOpenPicker };
+}
+```

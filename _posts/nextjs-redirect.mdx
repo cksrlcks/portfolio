@@ -1,0 +1,124 @@
+---
+title: 'Nextjs Server Component에서 redirect를 try, catch문 안에서 사용하기'
+date: '2025-01-16'
+description: 'Next.js Server Component에서 redirect를 try-catch 문 안에서 사용할 때 발생하는 NEXT_REDIRECT 에러의 동작 원리와 해결 방법에 대해 설명합니다.'
+---
+
+
+nextjs로 과제를 진행 중에 만나게 된 상황입니다. 예전 개인 프로젝트에서도 server action으로 nextauth의 로그인 처리 후 리다이렉션이 원하는 데로 되지 않아서 다른 방법을 선택했었는데, 이번 기회에 제대로 분석 후에 문제를 해결했습니다.
+
+**\[현재 상황\]**
+
+-   데이터를 받아오는 서비스 함수를 axios를 통해서 작성해 둠.
+-   해당 서비스 함수는 사용하는 곳에서 직접 try, catch로 에러를 핸들링
+-   app routing 폴더의 server component에서 해당 서비스 함수를 통해서 데이터를 들고 옴 (ssr을 위해)
+-   200번을 넘어가는 상태코드가 있을 때 에러가 발생 시 서비스 함수에서 전파된 error를 try, catch로 막지 않으면 가장 가까운 에러 바운더리를 찾아서 에러를 표시하게 됨
+-   예측가능한 에러들의 핸들링 위해서 try, catch를 사용해서 에러를 핸들링하려고 함. (404, 작성권한 체크 등)
+
+**\[문제점\]**
+
+-   try문안에서 redirect를 사용하게 되면 이상하게 원하는 데로 이동을 하지 않고, 에러 핸들링이 작성한 대로 돌아가 지 않는 현상이 있습니다.
+-   NEXT\_REDIRECT라는 메시지가 담긴 에러가 로그에 보이고 있습니다.
+
+**\[알게 된 점\]**
+
+> **Server Component**  
+> Invoking the redirect() function throws a NEXT\_REDIRECT error and terminates rendering of the route segment in which it was thrown.
+
+-   nextjs의 redirect는 NEXT\_REDIRECT는 메시지와 함께 에러를 throw를 한다는 사실을 알게 되었습니다.
+-   제가 작성한 서비스함수의 에러핸들링을 위해 try, catch를 쓴 곳에서 이 redirect의 에러전파가 막히게 되어서 일어나게 된 문제였습니다.
+-   NEXT\_REDIRECT라는 에러가 전파가 되어야지, 해당 라우트 세그먼트의 렌더링이 종료될 수 있습니다.
+
+**\[파훼법\]**
+
+해당 문제를 겪고 있는 분들이 생각보다 많았습니다. 레딧, nextjs github issue페이지등에서 해당 문제를 해결한 코멘트들을 분석해 보았습니다.
+
+**1\. try, catch문 밖으로 redirect를 옮기기**
+
+성공, 실패에 대한 flag를 변수로 만들고, try, catch문을 통과하면서 변동된 flag에 따라 redirect를 실행하지 결정하는 방법
+
+```tsx
+let success = false;
+
+try {
+    // ... 데이터 패칭 작업
+    success = true;
+} catch (error) {
+
+}
+
+if (success) redirect('/');
+```
+
+**2\. 커스텀 에러를 일으켜서 catch문에서 redirect 하도록 작성**
+
+redirect를 try문에서 쓰지 않고, redirect를 해야 하는 조건에 커스텀 에러를 throw 해서 catch문에 해당 에러를 판별 후 redirect
+
+```tsx
+  try {
+    const detail = await getProduct(id);
+    const isOwner = detail.ownerId === session.user.id;
+
+    if (!isOwner) {
+      throw new Error("NO_PERMISSION");
+    }
+
+    return (
+      <Component data={data} />
+    );
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.status === 404) {
+        notFound();
+      }
+    }
+
+    if (error instanceof Error) {
+      if (error.message === "NO_PERMISSION") {
+        redirect("/items");
+      }
+    }
+
+    throw new Error("페이지 정보를 가져오는데 문제가 생겼습니다.");
+  }
+```
+
+**3\. redirect의 에러일 경우에 catch문에서 다시 error를 전파하도록 작성**
+
+isRedirectError로 에러 타입을 확인 후 그대로 다시 error를 throw 하도록 하는 방법
+
+```tsx
+try {
+    const detail = await getProduct(id);
+    const isOwner = detail.ownerId === session.user.id;
+    
+    if (!isOwner) {
+      redirect("/items");
+    }
+
+    return (
+      <Component data={data} />
+    );
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.status === 404) {
+        notFound();
+      }
+    }
+
+    // 그냥 바로 error를 throw해줘도 상관없다.
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
+    throw new Error("페이지 정보를 가져오는데 문제가 생겼습니다.");
+  }
+```
+
+저는 3번이 더 편해 보여서 해당 방법을 차용해서 문제를 해결했습니다.
+
+**\[더 나아가\]**
+
+-   server component뿐만 아니라 server action에서도 동일한 메커니즘이 돌아갑니다.
+-   예를 들어 server action에서 로그인 api를 호출하는 try, catch문 안에서 redirect를 쓰게 될 때도 동일한 문제가 생기게 됩니다.
+-   redirect사용 시 프레임워크에서 미리 설정해 둔 에러전파가 사용자가 만든 try, catch블록에서 막히지 않도록 하는 게 중요한 키워드인 것 같습니다.

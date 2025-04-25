@@ -1,0 +1,113 @@
+---
+title: 'Nextjs에서 페이지 전환 시 prefetch로 인해 middleware가 동작하지 않는 문제'
+date: '2025-03-30'
+description: '페이지 렌더링 시 발생하는 prefetch로 인해 middleware를 거치지 않고 페이지가 전환되는 문제를 겪었고, 이를 해결하며 클라이언트 사이드 라우트 캐시를 어떻게 제어할 수 있는지에 대해 정리했습니다.'
+---
+
+
+Next.js에서 클라이언트 사이드 라우팅을 사용할 때 prefetch, middleware, 그리고 router cache가 서로 충돌하면서 예상하지 못한 동작이 발생하는 경우가 있습니다. 이 글에서는 **로그아웃 후 잘못된 페이지로 전환되는 사례**를 중심으로 이 현상을 분석하고, **클라이언트 사이드 라우트 캐시를 어떻게 제어할 수 있는지**에 대해 정리했습니다.
+
+## 문제상황
+
+프로젝트에서 사용 중인 미들웨어 코드
+
+```tsx
+// middleware.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+
+const AFTER_LOGIN_DOMAIN = ['/mydashboard', '/dashboard', '/mypage'] as const;
+const BEFORE_LOGIN_DOMAIN = ['/faq', '/privacy', '/login', '/signup', '/'] as const;
+
+export const middleware = async (request: NextRequest) => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken');
+  const pathname = request.nextUrl.pathname;
+
+  if (!accessToken?.value) {
+    if (AFTER_LOGIN_DOMAIN.some((path) => pathname.startsWith(path))) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  } else {
+    if (BEFORE_LOGIN_DOMAIN.includes(pathname)) {
+      return NextResponse.redirect(new URL('/mydashboard', request.url));
+    }
+  }
+
+  return NextResponse.next();
+};
+```
+
+## 오류 재현의 흐름 #1
+
+1.  로그인 이후 로그인이 필요한 아무 페이지나 직접 접속 혹은 새로고침
+    -   이때 루트 페이지는 프리패칭됨 (사이드바 상단에 노출되어 있는 로고의 Link태그 때문에)
+    -   프리패칭 요청이 미들웨어를 탐
+    -   이렇게 프리칭 된 데이터는 mydashboard
+        -   프리패칭을 할 당시에는 쿠키가 있기 때문에
+        -   그래서 미들웨어에서 토큰이 있다는 분기 쪽으로 빠지고, mydashboard로 리다이렉션을 하게 됨
+2.  로그아웃버튼을 누름
+    -   쿠키는 삭제됨
+    -   이제 router.replace로 루트페이지로 이동을 하는데
+    -   프리패치된 루트페이지가 브라우저 캐시에 있어서, 서버에 요청이 가지 않음 (미들웨어에서 콘솔이 아예 안 찍힘, 관련공식 문서 내용 링크 첨부)
+    -   결국 미들웨어를 다시 한번 체크할 수 있으면 게임 끝이지만, 이걸 안 하고 캐시를 사용해서 문제가 발생
+    -   프래패치되어 캐시에 있는 루트페이지 랜더링 결과물을 랜더링 하게 되고, 이 결과물은 mydashboard 페이지
+3.  보호된 페이지여서 루트페이지로 가야 하는데 mydashboard 페이지로 오게 됨
+    -   서버로 페이지 요청이 없고 캐시를 통해서 클라이언트 브라우저단에서 화면이 변함
+
+## 오류 재현의 흐름 #2
+
+1.  ‘/login’ 페이지로 처음 접속을 했을 경우(로그인상태가 아닐 때)
+2.  로그인 화면의 상단의 로고 컴포넌트가 Link컴포넌트이면서 경로가 루트 페이지
+3.  루트가 프리패칭된다.
+4.  로그인 이후에 mydashboard 페이지로 이동후 로고를 클릭해 보면
+    -   로그인이 되어있는 상태이니(쿠키가 있는 상태) 다시 mydashboard로 와야 할 것 같지만,
+    -   프리패칭된 로그인이전의 루트경로의 페이지 데이터가 라우터 캐시에 있어서, mydashboard로 오지 않는다.
+
+## 알게 된 내용들
+
+지금의 문제는 Client-side Router Cache가 남아있어서 생기는 문제로, 이 Cache를 무효화하는 방법은 없을까 해서 공식문서를 한번 찾아보면서 알게된 내용들을 정리해보았습니다.
+
+
+### 1) 라우터 캐시를 무효화(invalidate)하는 방법들
+
+- **서버 액션에서의 무효화**
+  - revalidatePath, revalidateTag 사용  
+  - cookies.set() 또는 cookies.delete()도 캐시를 무효화함  
+  
+- **클라이언트에서의 무효화**
+  - router.refresh()를 사용하면 **현재 페이지의 캐시만** 무효화 가능(다른 경로의 prefetch 데이터에는 영향 없음)
+  - [https://nextjs.org/docs/app/building-your-application/caching#invalidation-1](https://nextjs.org/docs/app/building-your-application/caching#invalidation-1)
+
+### 2) Route handler에서는 Client side Router Cache를 즉각적으로 삭제를 할 수 없다.
+
+> Revalidating the Data Cache in a Route Handler will not immediately invalidate the Router Cache
+
+[https://nextjs.org/docs/app/building-your-application/caching#data-cache-and-client-side-router-cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache-and-client-side-router-cache)
+
+  
+### 3)Route Cache에 prefetch 된 내용이 있으면, 서버요청을 건너뛴다.
+
+> On subsequent navigations or during prefetching, Next.js will check if the React Server Components Payload is stored in the Router Cache.If so, it will skip sending a new request to the server.
+
+[https://nextjs.org/docs/app/building-your-application/caching#5-subsequent-navigations](https://nextjs.org/docs/app/building-your-application/caching#5-subsequent-navigations)
+
+### 4) 미들웨어 특정 요청을 bypass 하는 방법도 있다.
+
+> You can also bypass Middleware for certain requests by using the missing or has arrays, or a combination of both:
+
+[https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher](https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher)
+
+이렇게 공식문서를 하나씩 찾아보면서 prefetching, middleware, route cache의 기본적인 성질들을 이해하니, 셋 모두 자신들의 역할은 충실했고, 상호작용으로 인한 부작용을 이해하고, 적절히 제어해 주는 것이 저희가 해야 할 과제인 것을 알게 되었습니다.
+
+## 선택한 해결방법
+
+client에서 router.refresh()를 호출하는 방법은 현재 라우트의 경로대한 캐시만 무효화하기 때문에, 지금 이 문제의 해결책이 될 수는 없었습니다.
+
+라우트캐시를 무효화해야 하는 시점은 사용자가 로그인 또는 로그아웃을 하는, 정확히는 쿠키가 변동되는 시점입니다.
+
+로그인, 로그아웃을 server action으로 전환 후에 해당 코드 내에서 revalidatePath 등을 사용하여 무효화하는 방법이 있었습니다.
+
+하지만 로그인, 로그아웃을 server action 코드로 바꾸게 되면서, 부가적인 서버액션의 상태를 체크하기 위한 코드들이 생겨나야 해서 비합리적이라고 생각되었습니다.
+
+그래서 저희 팀은 로그인, 로그아웃이 성공하면, 강제로 브라우저를 새 로고침하여 client router cahce를 초기화하는 방법으로 이 문제를 해결하였습니다.
