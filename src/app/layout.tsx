@@ -39,6 +39,10 @@ export default function RootLayout({
           name='google-site-verification'
           content='MfpQnlUHaN8BkNVbfA5JZLU4HVOW5kHSpJK9oN39V08'
         />
+        <meta
+          name='naver-site-verification'
+          content='09a8f62352504a6510f97a7a7919adbb62ded57e'
+        />
       </head>
       <body
         className={`${inter.variable} selection:bg-primary antialiased selection:text-white`}
