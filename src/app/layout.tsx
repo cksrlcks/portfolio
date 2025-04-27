@@ -35,6 +35,10 @@ export default function RootLayout({
           crossOrigin='anonymous'
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'
         />
+        <meta
+          name='google-site-verification'
+          content='MfpQnlUHaN8BkNVbfA5JZLU4HVOW5kHSpJK9oN39V08'
+        />
       </head>
       <body
         className={`${inter.variable} selection:bg-primary antialiased selection:text-white`}
