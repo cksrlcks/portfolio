@@ -1,38 +1,40 @@
 export const sections = ['about', 'experiences', 'projects'] as const;
 export type SectionType = (typeof sections)[number] | null;
 
-// TODO: about, experience, project 별로 타입 분리
-export type CardData = {
+export type BaseData = {
   id: string;
-  thumbnail: string;
-  year: number;
-  badge: string;
+  year: string;
   title: string;
-  description: string;
-  meta: string[];
-  contents: {
-    subTitle: string;
-    items: string[];
-  }[];
-  projects: {
-    name: string;
+  description?: string;
+  thumbnail?: string;
+};
+
+export type BaseDoc = {
+  title: string;
+  description?: string;
+  link?: string;
+};
+
+export type ExperienceData = BaseData & {
+  position?: string;
+  period: string;
+  tasks?: BaseDoc[];
+  results?: BaseDoc[];
+  projects?: (BaseDoc & {
     tags: string[];
-  }[];
+  })[];
+};
+
+export type ProjectData = BaseData & {
+  projectType: 'Personal' | 'Team';
   externalLinks: {
-    link: string;
     label: string;
-    type: 'github' | 'link';
+    link: string;
+    type: 'link' | 'github';
   }[];
   tags: string[];
-  roles: {
-    title: string;
-    content: string;
-  }[];
-  docs: {
-    title: string;
-    content: string;
-    link: string;
-  }[];
+  roles?: BaseDoc[];
+  docs?: BaseDoc[];
 };
 
 export type Metadata = {
