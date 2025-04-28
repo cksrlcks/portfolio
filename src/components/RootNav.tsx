@@ -26,7 +26,7 @@ const MENU = [
   {
     id: 3,
     href: '/projects',
-    label: 'project',
+    label: 'projects',
   },
   {
     id: 4,
