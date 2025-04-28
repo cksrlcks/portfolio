@@ -2,7 +2,7 @@
 
 import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import DataCard from './DataCard';
+import { ProjectCard } from './DataCard';
 import MoreButton from './MoreButton';
 import { PINED_PROJECT_DATA } from '@/data/projects';
 
@@ -27,7 +27,7 @@ export default function Projects() {
               data-id={project.id}
               className='cursor-pointer'
             >
-              <DataCard data={project} hover />
+              <ProjectCard project={project} hover />
             </li>
           ))}
         </ul>

@@ -1,4 +1,4 @@
-import DataCard from '@/components/DataCard';
+import { ExperienceCard } from '@/components/DataCard';
 import SubHeader from '@/components/SubHeader';
 import { EXPERIENCE_DATA } from '@/data/experiences';
 
@@ -16,9 +16,9 @@ export default function ExperiencesPage() {
         </div>
 
         <ul className='flex flex-col gap-15'>
-          {EXPERIENCE_DATA.map((exp) => (
-            <li key={exp.id} id={exp.id} className='scroll-m-10'>
-              <DataCard data={exp} />
+          {EXPERIENCE_DATA.map((experience) => (
+            <li key={experience.id} id={experience.id} className='scroll-m-10'>
+              <ExperienceCard experience={experience} />
             </li>
           ))}
         </ul>

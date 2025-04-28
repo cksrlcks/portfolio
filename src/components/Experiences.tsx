@@ -4,7 +4,7 @@ import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { PINED_EXPERIENCE_DATA } from '@/data/experiences';
 import MoreButton from './MoreButton';
-import DataCard from './DataCard';
+import { ExperienceCard } from './DataCard';
 
 export default function Experiences() {
   const router = useRouter();
@@ -20,14 +20,14 @@ export default function Experiences() {
       </h2>
       <div className='mb-16'>
         <ul className='flex flex-col md:gap-15'>
-          {PINED_EXPERIENCE_DATA.map((exp) => (
+          {PINED_EXPERIENCE_DATA.map((experience) => (
             <li
-              key={exp.year}
+              key={experience.year}
               onClick={handleClick}
-              data-id={exp.id}
+              data-id={experience.id}
               className='cursor-pointer'
             >
-              <DataCard data={exp} hover />
+              <ExperienceCard experience={experience} hover />
             </li>
           ))}
         </ul>

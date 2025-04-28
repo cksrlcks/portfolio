@@ -1,4 +1,4 @@
-import DataCard from '@/components/DataCard';
+import { ProjectCard } from '@/components/DataCard';
 import SubHeader from '@/components/SubHeader';
 import { PROJECT_DATA } from '@/data/projects';
 
@@ -19,7 +19,7 @@ export default function ProjectsPage() {
         <ul className='flex flex-col gap-15'>
           {PROJECT_DATA.map((project) => (
             <li key={project.id} id={project.id} className='scroll-m-10'>
-              <DataCard data={project} detail />
+              <ProjectCard project={project} mode='detail' />
             </li>
           ))}
         </ul>
