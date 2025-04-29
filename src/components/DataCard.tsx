@@ -125,8 +125,7 @@ export function ProjectCard({
     <BaseCard baseData={project} mode={mode} hover={hover}>
       <div
         className={cn(
-          mode === 'detail' && 'md:flex md:flex-row-reverse md:gap-10',
-          'mb-10',
+          mode === 'detail' && 'mb-10 md:flex md:flex-row-reverse md:gap-10',
         )}
       >
         <div className={cn('w-full', mode === 'detail' && 'w-full md:w-[30%]')}>

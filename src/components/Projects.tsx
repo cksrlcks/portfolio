@@ -19,7 +19,7 @@ export default function Projects() {
         Projects
       </h2>
       <div className='mb-16'>
-        <ul className='flex flex-col md:gap-15'>
+        <ul className='space-y-10 md:space-y-15'>
           {PINED_PROJECT_DATA.map((project, index) => (
             <li
               key={index}

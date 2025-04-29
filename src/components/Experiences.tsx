@@ -19,7 +19,7 @@ export default function Experiences() {
         Experiences
       </h2>
       <div className='mb-16'>
-        <ul className='flex flex-col md:gap-15'>
+        <ul className='space-y-10 md:space-y-15'>
           {PINED_EXPERIENCE_DATA.map((experience) => (
             <li
               key={experience.year}
