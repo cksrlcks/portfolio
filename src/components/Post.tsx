@@ -45,6 +45,24 @@ export function PostBody({ post }: PostBodyProps) {
           h4: (props) => (
             <h4 {...props} className='text-[17px] font-semibold' />
           ),
+          a: async (props) => {
+            const url = props.href;
+            const isExternalUrl = url.startsWith('http');
+
+            if (isExternalUrl) {
+              return (
+                <a
+                  {...props}
+                  className='break-all'
+                  data-external
+                  target='_blank'
+                  rel='noopener noreferrer'
+                />
+              );
+            }
+
+            return <Link {...props} data-internal />;
+          },
           img: async (props: { src: string; alt: string }) => {
             const { src, alt } = props;
             const originSize = await imageSizeFromFile(
