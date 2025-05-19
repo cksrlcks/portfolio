@@ -2,6 +2,37 @@ import { ProjectData } from '@/types';
 
 export const PROJECT_DATA: ProjectData[] = [
   {
+    id: 'pickroad',
+    thumbnail: '/projects/pickroad.svg',
+    year: '2025',
+    projectType: 'Personal',
+    title: 'Pick Road',
+    description:
+      'PickRoad는 블로그, 유튜브 등의 링크를 주제별로 큐레이션해 로드맵 형태로 공유할 수 있는 웹 서비스입니다. Next.js의 Server Action과 SSR을 활용해 서버 중심의 데이터 흐름을 구성하고, Drizzle ORM과 PostgreSQL로 기본적인 데이터 모델링과 CRUD 작업을 직접 구현했습니다.',
+    externalLinks: [
+      {
+        link: 'https://pick-road.com',
+        label: 'pick-road.com',
+        type: 'link',
+      },
+      {
+        link: 'https://github.com/cksrlcks/pickroad',
+        label: 'repo',
+        type: 'github',
+      },
+    ],
+    tags: [
+      'Next.js',
+      'Typescript',
+      'Drizzle',
+      'Supabase',
+      'Zod',
+      'React Hook Form',
+      'Tailwind CSS',
+      'SSR',
+    ],
+  },
+  {
     id: 'maskit',
     thumbnail: '/projects/maskit.svg',
     year: '2025',
@@ -212,4 +243,4 @@ export const PINED_PROJECT_DATA = PROJECT_DATA.map((item) => {
   delete filtered.docs;
 
   return filtered;
-}).slice(0, 2);
+}).slice(0, 3);
