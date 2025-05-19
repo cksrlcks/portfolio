@@ -1,3 +1,5 @@
+'use client';
+
 import { RiGithubFill, RiLink } from '@remixicon/react';
 
 interface ExternalLink {
@@ -17,6 +19,7 @@ export default function ExternalLink({
       target='_blank'
       rel='noopener noreferrer'
       className='font-inter inline-flex items-center gap-2 text-sm font-semibold text-white hover:underline'
+      onClick={(e) => e.stopPropagation()}
     >
       {type === 'link' ? <RiLink size={14} /> : <RiGithubFill size={14} />}
       {label}
