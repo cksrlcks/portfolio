@@ -31,6 +31,20 @@ export const PROJECT_DATA: ProjectData[] = [
       'Tailwind CSS',
       'SSR',
     ],
+    docs: [
+      {
+        title: 'unstable_cache 안에서 세션 조회 같은 동작이 지원되지 않는 이유',
+        description:
+          'Next.js의 unstable_cache는 정적 캐싱을 위해 설계되어 있어서, 세션 조회처럼 요청마다 달라지는 동작은 포함할 수 없다는 제약이 있습니다. 실제로 이 제약에 부딪히며, 공통 데이터는 캐싱하고 사용자별 데이터는 외부에서 처리하는 방식으로 구조를 나누는 방법을 직접 적용해 보았습니다.',
+        link: '/post/nextjs-unstable-cache',
+      },
+      {
+        title: 'Next.js App Router에서 쿼리스트링을 통한 상태 변경시 주의할 점',
+        description:
+          'Next.js App Router에서 쿼리스트링을 통한 상태 변경 시 UI가 멈춘 듯 보이는 이유와 Suspense의 미동작 원인에 대해 분석했습니다.',
+        link: '/post/nextjs-filter',
+      },
+    ],
   },
   {
     id: 'maskit',
