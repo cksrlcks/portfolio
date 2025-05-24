@@ -1,0 +1,104 @@
+---
+title: 'use client에 대한 정리'
+date: '2025-05-24'
+description: 'Next.js에서 "use client" 디렉티브를 사용하다 보면, 실제 동작 방식에 대해 헷갈리는 부분이 생깁니다. 이번 기회에 직접 테스트와 공식 문서를 바탕으로 "use client"를 사용할 때 마주치는 의문점들을 정리해 보았습니다.'
+---
+
+Next.js에서 `use client` 디렉티브를 사용하다 보면, 실제 동작 방식에 대해 헷갈리는 부분이 생깁니다. 이번 기회에 직접 테스트와 공식 문서를 바탕으로 `use client`를 사용할 때 마주치는 의문점들을 정리해 보았습니다.
+
+- 클라이언트 컴포넌트도 서버에서 랜더링이 되는가?
+- `use client`를 붙였는데도 `window is not defined`, `document is not defined`, 혹은 hydration 오류가 나는 이유는?
+
+## 공식문서의 use client
+### React 공식문서
+> 'use client' lets you mark what code runs on the client.
+
+### Next.js 공식문서
+> The 'use client' directive declares an entry point for the components to be rendered on the client side and should be used when creating interactive user interfaces (UI) that require client-side JavaScript capabilities, such as state management, event handling, and access to browser APIs. This is a React feature.
+
+즉, 이 지시어는 React가 해당 컴포넌트를 클라이언트 전용으로 다루게 하는 경계선 역할을 한다고 설명되어있습니다.
+
+---
+
+## 하지만 Next.js에서는 프리렌더 때문에 오해가 생긴다.
+
+Next.js는 페이지를 미리 HTML로 만들어 응답하는 **프리렌더링(SSG/SSR)** 기능을 제공합니다. 이 과정에서 `use client`가 붙은 클라이언트 컴포넌트도 프리렌더에 사용됩니다.
+
+> Client Components and the RSC Payload are used to prerender HTML.
+
+즉, `use client`를 붙였더라도, **프리렌더링 과정에서는 JSX 구조와 상태 초기값 등이 해석**되며 HTML 생성에 사용되므로, 클라이언트 컴포넌트도 ssr에 관여한다고 볼 수 있습니다.
+
+---
+
+## 다시 한번  Next.js의 server, client component가 돌아가는 원리를 짚고 가기
+
+### On the server
+- Server Components are rendered into a special data format called the React Server Component Payload (RSC Payload).
+- **Client Components and the RSC Payload are used to prerender HTML(클라이언트 컴포넌트와 RSC 페이로드는 HTML을 프리렌더링하는 데 사용됩니다.).** 
+
+### On the client (first load)
+- HTML is used to immediately show a fast non-interactive preview of the route to the user.
+- RSC Payload is used to reconcile the Client and Server Component trees.
+- JavaScript is used to hydrate Client Components and make the application interactive.
+
+### Subsequent Navigations
+- The RSC Payload is prefetched and cached for instant navigation.
+- **Client Components are rendered entirely on the client, without the server-rendered HTML.(클라이언트 컴포넌트는 서버에서 렌더링된 HTML 없이 전적으로 클라이언트에서 렌더링됩니다.)**
+
+[https://nextjs.org/docs/app/getting-started/server-and-client-components#on-the-server](https://nextjs.org/docs/app/getting-started/server-and-client-components#on-the-server)
+
+---
+
+## 직접 테스트해본 결과
+![프리랜더결과](/posts/nextjs-use-client/img-1.png)
+`use client`가 선언된 클라이언트 컴포넌트도 서버에서 프리랜더되어 HTML에 포함됩니다.
+이때 `useState`는 클라이언트에서만 동작하지만, 프리랜더 시점에서는 초기값이 그대로 사용되어 HTML에 포함된다는 점을 확인할 수 있습니다.
+
+---
+
+## 그렇다면 왜 'use client' 를 적은 클라이언트 컴포넌트에서 다음과 같은 오류가 날까?
+### `window is not defined` or `document is not defined`
+
+```tsx
+"use client";
+
+const [ width ] = useState(() => window.innerWidth);
+
+```
+
+Next.js는 초기 요청 시 HTML을 만들기 위해 컴포넌트를 서버에서 프리렌더링합니다. 이때 `useState`의 초기값으로 `window` 또는 `document`를 참조하면, 서버에는 없기 때문에 에러가 발생합니다.
+
+### `Hydration failed because the server rendered HTML didn't match the client`
+
+```tsx
+"use client";
+
+const [ time ] = useState(() => new Date());
+```
+
+서버에서 `new Date()`가 실행되어 생성된 시간으로 만들어진 html과, 클라이언트에서 하이드레이션될 때 생성된 시간이 달라질 수 있기 때문에, 하이드레이션 실패가 발생합니다.
+
+
+---
+
+## 해결 방법
+이런 문제를 피하려면 다음과 같은 방법을 사용합니다.
+
+- `useEffect`를 사용하여 클라이언트 전용 코드를 실행합니다.
+- `typeof window !== "undefined"`로 분기합니다. (**주의!, 이 방법도 hydration 오류를 일으킬 수 있습니다.**)
+- `next/dynamic`으로 ssr을 비활성화합니다.
+
+---
+
+## 처음 의문점에 대한 정리
+
+- 클라이언트 컴포넌트도 서버에서 랜더링이 되는가?
+    - `use client`가 붙은 컴포넌트는 클라이언트에서 렌더링됩니다. 즉, 상태 관리, 이벤트 처리, 렌더링 등 모든 동작은 브라우저에서 수행됩니다.
+    - 하지만 Next.js는 초기 화면을 빠르게 보여주기 위해 클라이언트 컴포넌트도 서버에서 정적인 HTML을 출력하는 데 사용하며, 초기 페이지 진입 시에는 클라이언트 컴포넌트와 React Server Component(RSC) Payload를 함께 이용해 HTML을 프리렌더링합니다.
+    - 브라우저는 이 HTML을 먼저 렌더링한 뒤, 클라이언트에서 컴포넌트를 다시 렌더링하고 **정적인 HTML과 구조를 맞춰 하이드레이션(hydration)**을 수행합니다.
+    - 이 프리렌더링 과정이 있기 때문에, **초기 페이지 진입 시 클라이언트 컴포넌트도 SSR에 일부 관여한다고 볼 수 있습니다.**
+    
+- `use client`를 붙였는데도 `window is not defined`, `document is not defined`, 혹은 hydration 오류가 나는 이유는?
+    - `use client`는 해당 컴포넌트를 **클라이언트에서만 동작하게 만드는 선언**입니다.
+    - 하지만 **프리렌더링 과정에서는 JSX 구조와 `useState` 초기값 등이 서버에서 실행**되어 HTML 생성에 사용됩니다.
+    - 이로 인해 `window`, `document`, `Date` 등을 초기값에서 사용하면 **오류** 또는 **하이드레이션 실패**가 발생할 수 있습니다.
