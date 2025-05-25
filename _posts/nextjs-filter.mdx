@@ -20,6 +20,14 @@ Next.js의 App Router에서 SSR(Server Side Rendering) 기반으로 페이지를
 
 또한, 필터 버튼이나 페이지네이션 UI도 쿼리스트링이 실제 반영된 후에야 늦게 업데이트되어, 클릭했는데 아무런 반응이 없는 것처럼 느껴지는 경험을 하게 됐습니다.
 
+## 테스트
+이 문제를 확인하기 위해, Next.js App Router 기반의 간단한 페이지를 만들었습니다. 이 페이지는 쿼리스트링을 기반으로 데이터를 패칭하고, 4초후 필터링된 결과를 보여주는 기능을 가지고 있습니다. 첨부된 영상을 보시면, 일반적인 페이지 이동시에는 suspense가 작동을 하지만, 쿼리스트링만 변경했을경우에는 suspense가 작동하지 않고, 서버응답이 끝난후에야 UI가 업데이트되는 것을 확인할 수 있습니다.
+
+[https://github.com/cksrlcks/suspense_test](https://github.com/cksrlcks/suspense_test)
+![쿼리스트링변경_지연UI](/posts/next-filter/img-0.webp)
+
+
+
 ## 원인
 
 Next.js App Router에서는 router.push()로 쿼리스트링만 변경하는 경우, pathname이 동일하다면 기존의 layout과 page 컴포넌트를 언마운트하지 않고 유지한 채 React 내부에서 일부만 다시 렌더링합니다. 이 과정에서 loading.tsx는 트리거되지 않으며, Suspense fallback도 실행되지 않습니다.
@@ -33,6 +41,8 @@ Next.js App Router에서는 router.push()로 쿼리스트링만 변경하는 경
 다음 영상은, 데이터패칭을 강제로 4초 지연시킨후 쿼리스트링을 변경했을 때의 모습입니다. (실제 서비스에서는 이렇게 느리게 동작하지 않지만, 문제를 이해하기 쉽게 하기 위해 의도적으로 지연시켰습니다.)
 
 ![쿼리스트링변경_지연UI](/posts/next-filter/img-1.webp)
+
+
 
 
 ## 해결방법
