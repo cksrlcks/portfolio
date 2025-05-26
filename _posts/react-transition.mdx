@@ -1,0 +1,97 @@
+---
+title: 'React 18 vs 19: useTransition 동작 비교'
+date: '2025-05-26'
+description: 'React 19에서 useTransition이 async 함수를 지원하면서, 로딩 상태 관리가 어떻게 달라졌는지 React 18과 비교해 정리했습니다. 서버 액션과의 연계, useActionState와의 흐름까지 실험과 문서 기반으로 살펴봅니다.'
+---
+
+React 19에서 `useTransition` 훅이 의미 있게 개선되었습니다. 특히 비동기 함수와의 통합 지원은 서버 액션을 많이 사용하는 프로젝트 [PickRoad](https://pick-road.com)에서 실제로 큰 도움이 되었습니다.
+
+React 18에서는 `useTransition`을 주로 상태 업데이트의 우선순위를 나누는 용도로만 사용했고, 비동기 흐름과 연계해 로딩 상태를 관리하는 데는 제약이 있었습니다. React 19에서 이 부분이 어떻게 달라졌는지 직접 실험해보고 정리해보았습니다.
+
+---
+
+## 실험 코드
+
+```tsx
+import { useTransition } from "react";
+
+export default function App() {
+  const [isPending, startTransition] = useTransition();
+
+  const handleClick = () => {
+    startTransition(async () => {
+      console.log("start");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      console.log("done");
+    });
+  };
+
+  return (
+    <div className="container">
+      <h1 className="title">React useTransition</h1>
+      <button onClick={handleClick} disabled={isPending} className="button">
+        {isPending ? "Loading..." : "Click"}
+      </button>
+      <p className="status">
+        {isPending ? "Transition in progress..." : "No transition"}
+      </p>
+    </div>
+  );
+}
+```
+
+---
+
+## React 18 vs 19 동작 비교
+
+eact 18에서는 `startTransition` 내부에 `async` 함수를 사용해도 `isPending`이 거의 바로 false로 돌아오기 때문에, 실제 비동기 작업과 로딩 상태가 제대로 연결되지 않았습니다.
+
+React 19에서는 `async` 함수 전체가 끝날 때까지 `isPending`이 유지되기 때문에, 비동기 흐름을 명확하게 추적할 수 있습니다.
+
+아래 영상은 동일한 코드에서 React 18과 19의 `isPending` 동작 차이를 비교한 예시입니다.
+
+![react18vs19-useTransition](/posts/react-transition/img-1.webp)
+
+### React18
+
+- `startTransition`에 `async` 함수를 넘겨도 내부의 `await`는 추적되지 않습니다.
+- 비동기 작업이 진행 중이어도 `isPending`은 거의 즉시 false로 바뀝니다.
+- 공식문서에 따르면 `startTransition`은 `setState` 호출만 감지합니다.
+- 로딩 상태를 정확히 표현하려면 별도의 상태 관리 코드가 필요합니다.
+
+### React 19
+- `startTransition`에 `async` 함수를 넘기면, 그 안의 `await`가 끝날 때까지 `isPending`이 유지됩니다.
+- setState 호출 여부와 관계없이, 비동기 흐름 전체를 추적합니다.
+- 서버 액션이나 API 요청 등에서 로딩 상태를 자연스럽게 표현할 수 있습니다.
+
+---
+
+## 리액트 공식 블로그 참고
+
+[https://react.dev/blog/2024/12/05/react-19](https://react.dev/blog/2024/12/05/react-19)
+
+> When using a Server Function outside a form, call the Server Function in a Transition, which allows you to display a loading indicator, show optimistic state updates, and handle unexpected errors. Forms will automatically wrap Server Functions in transitions.
+
+React 공식 블로그를 보면, `useTransition`과 `useActionState`는 비동기 흐름을 자연스럽게 다룰 수 있도록 설계되었으며, 특히 폼 외부에서 서버 액션을 사용할 경우에는 `useTransition`을 직접 사용하는 방식이 권장됩니다.
+
+> In React 19, we’re adding support for using async functions in transitions to handle pending states, errors, forms, and optimistic updates automatically. 
+The async transition will immediately set the isPending state to true, make the async request(s), and switch isPending to false after any transitions. This allows you to keep the current UI responsive and interactive while the data is changing.
+
+ 
+그리고 공식 블로그의 예제를 보면, 처음에는 `useState`로 상태를 관리하다가, `useTransition`을 사용해 로딩 상태를 감지하고, 마지막에는 `useActionState`로 비동기 서버 액션을 처리하는 구조로 점점 발전해 나갑니다.
+
+이런 흐름을 보면 `useActionState`는 마치 `useTransition`을 기반으로, 서버 액션과 `isPending` 상태를 함께 관리할 수 있도록 한 단계 추상화된 훅처럼 느껴집니다.
+
+---
+
+## 공식 문서의 최신 반영 여부
+React 19에서는 `startTransition`에 `async` 함수를 직접 전달할 수 있고, 내부의 await가 모두 끝날 때까지 `isPending` 상태가 유지된다는 점을 공식 블로그와 실험 코드를 통해 확인할 수 있었습니다.
+
+하지만 현재(2025년 5월 기준), React 공식 문서의 `useTransition` 페이지는 아직 이 변경 사항을 충분히 반영하지 않고 있습니다.
+
+예를 들어, 아래와 같은 설명은 여전히 React 18 기준에 머물러 있습니다:
+
+> The function you pass to startTransition is called immediately, marking all state updates that happen while it executes as Transitions.
+
+이 설명만 보면 `startTransition`에 `async` 함수를 넘길 수 없는 것처럼 보이고, 실제로 저도 처음에는 그렇게 이해해 혼란을 겪었습니다. 그래서 직접 실험을 통해 동작을 확인해보고, 공식 블로그의 내용을 참고하면서 현재 동작 방식을 명확히 정리해보고자 이 글을 작성하게 되었습니다.
+
