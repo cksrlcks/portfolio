@@ -33,6 +33,12 @@ export const PROJECT_DATA: ProjectData[] = [
     ],
     docs: [
       {
+        title: 'React 18 vs 19: useTransition 동작 비교',
+        description:
+          'React 19에서 useTransition이 async 함수를 지원하면서, 로딩 상태 관리가 어떻게 달라졌는지 React 18과 비교해 정리했습니다.',
+        link: '/post/react-transition',
+      },
+      {
         title: 'unstable_cache 안에서 세션 조회 같은 동작이 지원되지 않는 이유',
         description:
           'Next.js의 unstable_cache는 정적 캐싱을 위해 설계되어 있어서, 세션 조회처럼 요청마다 달라지는 동작은 포함할 수 없다는 제약이 있습니다. 실제로 이 제약에 부딪히며, 공통 데이터는 캐싱하고 사용자별 데이터는 외부에서 처리하는 방식으로 구조를 나누는 방법을 직접 적용해 보았습니다.',
