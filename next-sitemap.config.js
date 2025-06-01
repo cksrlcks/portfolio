@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://heavybear-portfolio.vercel.app',
+  siteUrl: 'https://heavybear.net',
   generateRobotsTxt: true,
   changefreq: 'daily',
 };

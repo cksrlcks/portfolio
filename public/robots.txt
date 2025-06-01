@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://heavybear.net
+
+# Sitemaps
+Sitemap: https://heavybear.net/sitemap.xml
