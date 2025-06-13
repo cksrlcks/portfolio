@@ -101,6 +101,13 @@ export const PROJECT_DATA: ProjectData[] = [
       //     'Canvas 관련 기능들을 context로 통합했지만, 관리해야 할 상태가 많아지면서 기능 추가 시 복잡도가 높아졌습니다. 이를 해결하기 위해 상태를 하나의 객체로 묶고, Jotai를 도입해 보다 효율적으로 상태를 관리했습니다.',
       //   link: '#작성중',
       // },
+      {
+        title:
+          'iOS에서 ClipboardItem으로 canvas 이미지 복사가 실패하는 이유와 해결 방법',
+        description:
+          'iOS에서 ClipboardItem에 Blob을 직접 전달했을 때 클립보드 복사가 실패하는 원인을 분석하고, 이를 모든 브라우저에서 동작하도록 개선한 과정을 정리했습니다.',
+        link: '/post/maskit-clipboard',
+      },
     ],
   },
   {
