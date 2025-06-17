@@ -20,76 +20,90 @@ React 공식 문서에서는 이 개념을 다음과 같이 설명하고 있습�
 ### 주요 예제들
 
 1. 같은 위치에 같은 컴포넌트를 렌더링할 경우 상태는 보존됨
-```tsx
-import { useState } from 'react';
 
+```tsx
 export default function App() {
-  const [isFancy, setIsFancy] = useState(false);
+  const [isHighlight, setIsHighlight] = useState(false);
+
   return (
-    <div>
-      {isFancy ? (
-        <Counter isFancy={true} />
-      ) : (
-        <Counter isFancy={false} />
-      )}
-      <label>
-        <input
-          type="checkbox"
-          checked={isFancy}
-          onChange={e => {
-            setIsFancy(e.target.checked)
-          }}
-        />
-        Use fancy styling
-      </label>
-    </div>
+    <>
+      <div
+        className="card"
+        style={{
+          border: isHighlight ? "2px solid yellow" : "2px solid transparent",
+        }}
+      >
+        {isHighlight ? <Counter /> : <Counter />}
+      </div>
+      <div>
+        <button onClick={() => setIsHighlight(!isHighlight)}>
+          {isHighlight ? "Turn off" : "Turn on"} Highlight
+        </button>
+      </div>
+    </>
   );
 }
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+
 ```
-`isFancy` 값에 따라 `<Counter>`에 넘기는 props만 바뀌고, 위치는 동일하게 유지되기 때문에 Counter의 상태는 보존된다.
+코드상에서는 `isHighlight` 값에 따라 `<Counter />` 컴포넌트가 바뀌는것 처럼 보이지만, 실제로는 같은 위치에 같은 컴포넌트가 렌더링되므로 `<Counter />` 컴포넌트의 상태가 유지됩니다. (버튼을 눌러서 카운트값을 증가시킨후, isHighlight를 변경해도 카운트 값은 초기화되지 않습니다.)
+
+
+![예제1](/posts/react-state-preserve/img-1.webp)
 
 2. 조건문으로 나뉜 return이라도, 렌더 트리 위치가 같으면 상태는 유지됨
 ```tsx
-import { useState } from 'react';
-
 export default function App() {
-  const [isFancy, setIsFancy] = useState(false);
-  if (isFancy) {
+  const [isHighlight, setIsHighlight] = useState(false);
+
+  if (isHighlight) {
     return (
-      <div>
-        <Counter isFancy={true} />
-        <label>
-          <input
-            type="checkbox"
-            checked={isFancy}
-            onChange={e => {
-              setIsFancy(e.target.checked)
-            }}
-          />
-          Use fancy styling
-        </label>
-      </div>
+      <>
+        <div
+          className="card"
+          style={{
+            border: "2px solid yellow",
+          }}
+        >
+          <Counter />
+        </div>
+        <div>
+          <button onClick={() => setIsHighlight(!isHighlight)}>
+            Turn off Highlight
+          </button>
+        </div>
+      </>
     );
   }
+
   return (
-    <div>
-      <Counter isFancy={false} />
-      <label>
-        <input
-          type="checkbox"
-          checked={isFancy}
-          onChange={e => {
-            setIsFancy(e.target.checked)
-          }}
-        />
-        Use fancy styling
-      </label>
-    </div>
+    <>
+      <div
+        className="card"
+        style={{
+          border: "2px solid transparent",
+        }}
+      >
+        <Counter />
+      </div>
+      <div>
+        <button onClick={() => setIsHighlight(!isHighlight)}>
+          Turn onHighlight
+        </button>
+      </div>
+    </>
   );
 }
 ```
 
-JSX가 완전히 두 개로 나뉘어 있지만, 두 경우 모두 Counter가 동일한 UI 트리의 위치에 렌더링되므로 상태가 유지된다.
+JSX가 완전히 두 개로 나뉘어 있지만, 두 경우 모두 Counter가 동일한 UI 트리의 위치에 렌더링되므로 상태가 유지됩니다.
+
+![예제2](/posts/react-state-preserve/img-2.webp)
 
 ### 마무리하며
 프로젝트를 하다 보면 같은 위치에 렌더링되는 컴포넌트의 상태를 강제로 초기화하기 위해 key를 사용하는 경우가 있었습니다. 이번 문서를 통해, 왜 그런 방식이 필요한지, React가 상태를 어떤 기준으로 보존하는지에 대해 더 명확하게 이해할 수 있었습니다.
