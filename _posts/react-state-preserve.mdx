@@ -1,0 +1,97 @@
+---
+title: 'React 상태는 렌더 트리의 ‘위치’에 따라 결정된다'
+date: '2025-06-17'
+description: 'React의 상태는 렌더 트리 기반으로 관리됩니다. 컴포넌트가 렌더링된 위치에 따라 상태가 보존되거나 초기화되며, 이 글에서는 공식문서를 바탕으로 렌더 트리 기반 상태 관리 방식의 동작 원리를 정리했습니다.'
+---
+
+리액트 공식 문서를 다시 한번 살펴보던 중, 상태(state)가 보존되거나 초기화되는 방식에 대해 새로운 시각을 갖게 된 섹션이 있었습니다. 평소에도 상태가 예상과 다르게 초기화되거나 유지되는 경험을 한 적은 있었지만, 정확히 어떤 원리로 동작하는지에 대해선 깊게 생각해본 적이 없었습니다.
+
+이번 문서를 통해 **React가 상태를 '렌더 트리(render tree)'의 위치 기준으로 관리한다**는 사실을 제대로 이해할 수 있었습니다.
+
+### state를 보존하고 초기화하는 기준은 "렌더 트리의 위치”
+React 공식 문서에서는 이 개념을 다음과 같이 설명하고 있습니다.
+- state는 렌더 트리의 위치에 연결됩니다.
+- React는 컴포넌트가 UI 트리에서 같은 자리에 렌더링되는 한 state를 유지합니다. 만약 해당 자리에 다른 컴포넌트가 렌더링되면 React는 기존 state를 버리고 새로 초기화합니다.
+- 같은 위치의 같은 컴포넌트는 state를 보존합니다.
+- React는 JSX 코드에서의 위치가 아닌, UI 트리에서의 위치에 관심을 가집니다.
+
+처음엔 이 설명이 다소 추상적으로 느껴졌지만, 문서의 예제와 그림이 워낙 잘 되어 있어서 이해하는 데 큰 어려움은 없었습니다.
+
+### 주요 예제들
+
+1. 같은 위치에 같은 컴포넌트를 렌더링할 경우 상태는 보존됨
+```tsx
+import { useState } from 'react';
+
+export default function App() {
+  const [isFancy, setIsFancy] = useState(false);
+  return (
+    <div>
+      {isFancy ? (
+        <Counter isFancy={true} />
+      ) : (
+        <Counter isFancy={false} />
+      )}
+      <label>
+        <input
+          type="checkbox"
+          checked={isFancy}
+          onChange={e => {
+            setIsFancy(e.target.checked)
+          }}
+        />
+        Use fancy styling
+      </label>
+    </div>
+  );
+}
+```
+`isFancy` 값에 따라 `<Counter>`에 넘기는 props만 바뀌고, 위치는 동일하게 유지되기 때문에 Counter의 상태는 보존된다.
+
+2. 조건문으로 나뉜 return이라도, 렌더 트리 위치가 같으면 상태는 유지됨
+```tsx
+import { useState } from 'react';
+
+export default function App() {
+  const [isFancy, setIsFancy] = useState(false);
+  if (isFancy) {
+    return (
+      <div>
+        <Counter isFancy={true} />
+        <label>
+          <input
+            type="checkbox"
+            checked={isFancy}
+            onChange={e => {
+              setIsFancy(e.target.checked)
+            }}
+          />
+          Use fancy styling
+        </label>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <Counter isFancy={false} />
+      <label>
+        <input
+          type="checkbox"
+          checked={isFancy}
+          onChange={e => {
+            setIsFancy(e.target.checked)
+          }}
+        />
+        Use fancy styling
+      </label>
+    </div>
+  );
+}
+```
+
+JSX가 완전히 두 개로 나뉘어 있지만, 두 경우 모두 Counter가 동일한 UI 트리의 위치에 렌더링되므로 상태가 유지된다.
+
+### 마무리하며
+프로젝트를 하다 보면 같은 위치에 렌더링되는 컴포넌트의 상태를 강제로 초기화하기 위해 key를 사용하는 경우가 있었습니다. 이번 문서를 통해, 왜 그런 방식이 필요한지, React가 상태를 어떤 기준으로 보존하는지에 대해 더 명확하게 이해할 수 있었습니다.
+
+React의 상태가 단순히 컴포넌트에 묶여 있는 것이 아니라, 렌더 트리의 위치 기준으로 연결되어 있다는 점은 상태 관리에서 중요한 관점이라는 걸 다시 한번 느꼈습니다.
