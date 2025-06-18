@@ -16,7 +16,7 @@ export default function ProjectsPage() {
           <div>내용</div>
         </div>
 
-        <ul className='flex flex-col gap-15'>
+        <ul className='flex flex-col gap-32'>
           {PROJECT_DATA.map((project) => (
             <li key={project.id} id={project.id} className='scroll-m-10'>
               <ProjectCard project={project} mode='detail' />

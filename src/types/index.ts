@@ -35,6 +35,9 @@ export type ProjectData = BaseData & {
   tags: string[];
   roles?: BaseDoc[];
   docs?: BaseDoc[];
+  background?: string;
+  content?: BaseDoc[];
+  results?: string[];
 };
 
 export type Metadata = {

@@ -21,7 +21,7 @@ export default function BaseCard({ baseData, hover, children }: BaseCardProps) {
       <div className='relative z-10 flex flex-col gap-4 md:flex-row'>
         <div className='w-[25%]'>{year}</div>
         <div className='flex-1'>
-          <div className='space-y-8 text-sm'>{children}</div>
+          <div className='space-y-8'>{children}</div>
         </div>
       </div>
       {hover && (
@@ -46,18 +46,18 @@ export function ExperienceCard({
   return (
     <BaseCard baseData={experience} mode={mode} hover={hover}>
       <div className='space-y-4'>
-        <h3 className='text-[16px] font-semibold text-white'>{title}</h3>
-        <div className='space-y-1'>
+        <h3 className='font-semibold text-white'>{title}</h3>
+        <div className='space-y-1 text-sm'>
           <p>{position}</p>
           <p>{period}</p>
         </div>
-        <p className='text-[16px]'>{description}</p>
+        <p>{description}</p>
       </div>
 
       {/* 주요업무 */}
       {tasks && (
         <div>
-          <h4 className='mb-2.5 text-white'>주요업무</h4>
+          <h4 className='mb-2.5 text-sm text-white'>주요업무</h4>
           <ul className='flex flex-col gap-1'>
             {tasks.map((task, index) => (
               <li key={index}>{task.title}</li>
@@ -69,7 +69,7 @@ export function ExperienceCard({
       {/* 주요성과 */}
       {results && (
         <div>
-          <h4 className='mb-2.5 text-white'>주요성과</h4>
+          <h4 className='mb-2.5 text-sm text-white'>주요성과</h4>
           <ul className='flex flex-col gap-1'>
             {results.map((result, index) => (
               <li key={index}>{result.title}</li>
@@ -120,6 +120,8 @@ export function ProjectCard({
     tags,
     roles,
     docs,
+    background,
+    content,
   } = project;
   return (
     <BaseCard baseData={project} mode={mode} hover={hover}>
@@ -141,13 +143,13 @@ export function ProjectCard({
             <div className='text-primary mb-1 text-sm font-semibold'>
               {projectType}
             </div>
-            <h3 className='text-[16px] font-semibold text-white'>{title}</h3>
-            <p className='text-[16px]'>{description}</p>
+            <h3 className='font-semibold text-white'>{title}</h3>
+            <p>{description}</p>
           </div>
 
           {/* 외부링크 */}
           {externalLinks && (
-            <div className='flex gap-4'>
+            <div className='mb-6 flex gap-4'>
               {externalLinks.map((item, index) => (
                 <ExternalLink
                   key={index}
@@ -170,39 +172,72 @@ export function ProjectCard({
         </div>
       </div>
 
-      {roles && (
-        <div>
-          <h4 className='mb-4 text-white'>주요 역할</h4>
-          <ul className='flex flex-col gap-1'>
-            {roles.map((item, index) => (
-              <li key={index} className='border-gray/20 mb-5 border-b pb-5'>
-                <h5 className='mb-1.5 text-white'>{item.title}</h5>
-                <div className='mb-2'>{item.description}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {mode === 'detail' && (
+        <div className='space-y-16 font-[16px]'>
+          {background && (
+            <div>
+              <h4 className='mb-6 text-sm text-white'>프로젝트 배경</h4>
+              <div className='space-y-2'>
+                {background.split('\n').map((line, index) => (
+                  <p key={index}>{line}</p>
+                ))}
+              </div>
+            </div>
+          )}
 
-      {docs && (
-        <div>
-          <h4 className='mb-4 text-white'>회고 및 문서</h4>
-          <ul className='flex flex-col gap-1'>
-            {docs.map((item, index) => (
-              <li key={index} className='border-gray/20 mb-5 border-b pb-5'>
-                <h5 className='mb-1.5 text-white'>{item.title}</h5>
-                <div className='mb-2'>{item.description}</div>
-                <Link
-                  href={item.link || '#'}
-                  className='inline-flex items-center gap-2 hover:underline'
-                  target='_blank'
-                >
-                  <RiLink size={14} />
-                  포스트 보기
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {content && (
+            <div>
+              <h4 className='mb-6 text-sm text-white'>구현 내용</h4>
+              <ul className='flex flex-col gap-1 space-y-8'>
+                {content.map((item, index) => (
+                  <li key={index}>
+                    <h5 className='mb-2 text-white'>{item.title}</h5>
+                    <div className='space-y-2'>
+                      {item.description
+                        ?.split('\n')
+                        .map((line, index) => <p key={index}>{line}</p>)}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {roles && (
+            <div>
+              <h4 className='mb-6 text-sm text-white'>주요 역할</h4>
+              <ul className='flex flex-col gap-1 space-y-8'>
+                {roles.map((item, index) => (
+                  <li key={index}>
+                    <h5 className='mb-2 text-white'>{item.title}</h5>
+                    <div className='space-y-2'>{item.description}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {docs && (
+            <div>
+              <h4 className='mb-6 text-sm text-white'>회고 및 문서</h4>
+              <ul className='flex flex-col gap-1 space-y-8'>
+                {docs.map((item, index) => (
+                  <li key={index}>
+                    <h5 className='mb-2 text-white'>{item.title}</h5>
+                    <div className='mb-3'>{item.description}</div>
+                    <Link
+                      href={item.link || '#'}
+                      className='inline-flex items-center gap-2 text-sm hover:underline'
+                      target='_blank'
+                    >
+                      <RiLink size={14} />
+                      포스트 보기
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </BaseCard>
