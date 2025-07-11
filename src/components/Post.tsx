@@ -7,6 +7,7 @@ import { imageSizeFromFile } from 'image-size/fromFile';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Post } from '@/types';
 import '@/assets/css/github-dark.css';
+import Youtube from '@/components/Youtube';
 
 const MAX_IMAGE_WIDTH = 768;
 
@@ -73,6 +74,7 @@ export function PostBody({ post }: PostBodyProps) {
 
             return <Image src={src} alt={alt} width={width} height={height} />;
           },
+          Youtube,
         }}
       />
     </div>
