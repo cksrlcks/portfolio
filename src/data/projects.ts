@@ -87,7 +87,7 @@ export const PROJECT_DATA: ProjectData[] = [
 
     externalLinks: [
       {
-        link: 'https://maskit.kr',
+        link: 'https://easy-maskit.netlify.app',
         label: 'maskit.kr',
         type: 'link',
       },
